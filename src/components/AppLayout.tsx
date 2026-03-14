@@ -7,6 +7,13 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
