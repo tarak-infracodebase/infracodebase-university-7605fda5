@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import brandCrystal from "@/assets/brand-crystal.png";
+import { CrystalIcon } from "./DashboardWidgets";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
