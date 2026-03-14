@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { learningPaths, getTotalLessons, getTotalCourses } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import brandCrystal from "@/assets/brand-crystal.png";
 import { 
   Compass, Layers, Server, FileText, Shield, Cpu, GraduationCap, 
   ArrowRight, BookOpen, Users, Zap, ChevronRight 
@@ -19,9 +18,6 @@ const Index = () => {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 gradient-hero" />
-        <div className="absolute top-20 right-10 opacity-20 hidden lg:block">
-          <img src={brandCrystal} alt="" className="w-80 h-auto" />
-        </div>
         <div className="relative px-6 lg:px-12 py-20 lg:py-32 max-w-5xl">
           <div className="inline-flex items-center gap-2 rounded-full crystal-badge px-4 py-1.5 text-xs text-primary mb-6">
             <CrystalIcon size={14} />
@@ -35,11 +31,8 @@ const Index = () => {
             Learn how modern infrastructure teams design, build, document, and govern infrastructure using AI-assisted workflows with Infracodebase.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link to="/dashboard" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors shadow-glow">
+            <Link to="/curriculum" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors shadow-glow">
               Start Learning <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link to="/curriculum" className="inline-flex items-center gap-2 rounded-lg border border-border bg-card/50 px-6 py-3 text-sm font-medium text-foreground hover:bg-card transition-colors">
-              Explore Learning Paths
             </Link>
           </div>
         </div>
