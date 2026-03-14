@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { learningPaths, getTotalLessons, getTotalCourses } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import brandCrystal from "@/assets/brand-crystal.png";
 import { 
   Compass, Layers, Server, FileText, Shield, Cpu, GraduationCap, 
   ArrowRight, BookOpen, Users, Zap, ChevronRight 
