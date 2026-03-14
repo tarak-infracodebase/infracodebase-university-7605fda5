@@ -1,82 +1,265 @@
 import { AppLayout } from "@/components/AppLayout";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Calendar, Users, Radio, MessageSquare, ArrowRight } from "lucide-react";
+import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap } from "lucide-react";
 
-const upcomingEvents = [
-  { id: 1, title: "Infrastructure Architecture Patterns", date: "Mar 20, 2026", time: "2:00 PM UTC", type: "Technical Session", speaker: "Sarah Chen", description: "Deep dive into scalable infrastructure patterns using Infracodebase agent workflows." },
-  { id: 2, title: "Building Resilient VPC Networks", date: "Mar 25, 2026", time: "3:00 PM UTC", type: "Live Webinar", speaker: "Marcus Weber", description: "Hands-on session building production-grade VPC configurations with routing and NAT." },
-  { id: 3, title: "Platform Engineering Best Practices", date: "Apr 2, 2026", time: "1:00 PM UTC", type: "Conversation", speaker: "Priya Sharma", description: "Discussion on governance rulesets and enterprise-scale platform engineering." },
-  { id: 4, title: "Community Infrastructure Review", date: "Apr 10, 2026", time: "4:00 PM UTC", type: "Community Talk", speaker: "Community Panel", description: "Share and review infrastructure designs built during the learning program." },
-];
+type SeriesFilter = "all" | "infracodebase" | "buildwithher";
+type TypeFilter = "all" | "conversation" | "technical" | "webinar" | "career";
 
-const pastEvents = [
-  { id: 5, title: "Getting Started with Infracodebase", date: "Mar 5, 2026", type: "Technical Session", speaker: "Aiko Tanaka" },
-  { id: 6, title: "Understanding Workspaces & Agents", date: "Feb 28, 2026", type: "Live Webinar", speaker: "James O'Brien" },
-  { id: 7, title: "Infrastructure Documentation Strategies", date: "Feb 20, 2026", type: "Conversation", speaker: "Emma Lindqvist" },
+interface EventItem {
+  id: number;
+  title: string;
+  series: "infracodebase" | "buildwithher";
+  type: "Technical Session" | "Live Webinar" | "Conversation" | "Career Talk";
+  speakers: { name: string; role?: string }[];
+  link: string;
+  platform: "youtube" | "linkedin";
+  thumbnail?: string;
+  featured?: boolean;
+}
+
+const events: EventItem[] = [
+  {
+    id: 1,
+    title: "Building Self-Service, Secure, and Scalable Developer Platforms",
+    series: "infracodebase",
+    type: "Technical Session",
+    speakers: [{ name: "Lalit", role: "Founder" }, { name: "Tarak", role: "Engineer" }, { name: "Justin", role: "Platform Lead" }],
+    link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
+    platform: "youtube",
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "Legal Background to Cloud Engineering: What It Really Takes",
+    series: "buildwithher",
+    type: "Career Talk",
+    speakers: [{ name: "Shannon", role: "Cloud Engineer" }],
+    link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
+    platform: "linkedin",
+  },
+  {
+    id: 3,
+    title: "Building with AI You Can Trust",
+    series: "infracodebase",
+    type: "Technical Session",
+    speakers: [{ name: "Tarak", role: "Engineer" }, { name: "Lalit", role: "Founder" }],
+    link: "https://www.youtube.com/watch?v=mlIePKsqa-4",
+    platform: "youtube",
+  },
+  {
+    id: 4,
+    title: "Delivering Secure Cloud Infrastructure at Scale with AI",
+    series: "infracodebase",
+    type: "Live Webinar",
+    speakers: [{ name: "Alex", role: "Security Lead" }, { name: "Lalit", role: "Founder" }],
+    link: "https://www.youtube.com/watch?v=SLpgv8zCzPU",
+    platform: "youtube",
+  },
+  {
+    id: 5,
+    title: "Operating Cloud Engineering at Scale",
+    series: "infracodebase",
+    type: "Live Webinar",
+    speakers: [{ name: "Justin", role: "Platform Lead" }, { name: "Tarak", role: "Engineer" }],
+    link: "https://www.youtube.com/watch?v=H8Osx6GcLSE",
+    platform: "youtube",
+  },
+  {
+    id: 6,
+    title: "No Straight Lines: Breaking into Tech and Rising to Leadership",
+    series: "buildwithher",
+    type: "Conversation",
+    speakers: [{ name: "Shannon", role: "Cloud Engineer" }, { name: "Fatima", role: "Engineering Manager" }],
+    link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
+    platform: "youtube",
+  },
 ];
 
 const typeColors: Record<string, string> = {
   "Technical Session": "bg-crystal-violet/10 text-crystal-violet border-crystal-violet/20",
   "Live Webinar": "bg-crystal-cyan/10 text-crystal-cyan border-crystal-cyan/20",
   "Conversation": "bg-crystal-magenta/10 text-crystal-magenta border-crystal-magenta/20",
-  "Community Talk": "bg-crystal-green/10 text-crystal-green border-crystal-green/20",
+  "Career Talk": "bg-crystal-green/10 text-crystal-green border-crystal-green/20",
 };
 
+const speakerInitialColors: Record<string, string> = {
+  Lalit: "hsl(var(--crystal-violet))",
+  Tarak: "hsl(var(--crystal-cyan))",
+  Justin: "hsl(var(--crystal-green))",
+  Shannon: "hsl(var(--crystal-magenta))",
+  Alex: "hsl(var(--crystal-orange))",
+  Fatima: "hsl(var(--crystal-yellow))",
+};
+
+function SpeakerAvatar({ name }: { name: string }) {
+  const bg = speakerInitialColors[name] || "hsl(var(--muted))";
+  return (
+    <div className="h-8 w-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0" style={{ backgroundColor: bg }}>
+      {name[0]}
+    </div>
+  );
+}
+
+function EventCard({ event }: { event: EventItem }) {
+  return (
+    <a href={event.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-xl overflow-hidden group hover:border-primary/20 transition-colors block">
+      {/* Thumbnail placeholder */}
+      <div className="h-40 bg-muted/50 relative flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-crystal-violet/10 via-transparent to-crystal-cyan/10" />
+        <Play className="h-10 w-10 text-muted-foreground/40 group-hover:text-primary/60 transition-colors" />
+        <span className={cn("absolute top-3 left-3 text-[10px] px-2 py-0.5 rounded-full border", typeColors[event.type])}>{event.type}</span>
+      </div>
+      <div className="p-4">
+        <h3 className="text-sm font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">{event.title}</h3>
+        <div className="flex items-center gap-2 mb-3">
+          <div className="flex -space-x-2">
+            {event.speakers.map(s => <SpeakerAvatar key={s.name} name={s.name} />)}
+          </div>
+          <span className="text-[11px] text-muted-foreground">{event.speakers.map(s => s.name).join(", ")}</span>
+        </div>
+        <button className="w-full rounded-lg bg-primary/10 text-primary px-4 py-2 text-xs font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-1.5">
+          {event.platform === "youtube" ? "Watch on YouTube" : "Join on LinkedIn"}
+          <ExternalLink className="h-3 w-3" />
+        </button>
+      </div>
+    </a>
+  );
+}
+
 const Events = () => {
-  const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
+  const [seriesFilter, setSeriesFilter] = useState<SeriesFilter>("all");
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
+
+  const featured = events.find(e => e.featured);
+
+  const filtered = events.filter(e => {
+    if (seriesFilter !== "all" && e.series !== seriesFilter) return false;
+    if (typeFilter === "technical" && e.type !== "Technical Session") return false;
+    if (typeFilter === "webinar" && e.type !== "Live Webinar") return false;
+    if (typeFilter === "conversation" && e.type !== "Conversation") return false;
+    if (typeFilter === "career" && e.type !== "Career Talk") return false;
+    return true;
+  });
+
+  const infraEvents = filtered.filter(e => e.series === "infracodebase");
+  const bwhEvents = filtered.filter(e => e.series === "buildwithher");
 
   return (
     <AppLayout>
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold mb-1">Events</h1>
-          <p className="text-sm text-muted-foreground">Live sessions, webinars, and community discussions</p>
+      <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8 space-y-12">
+        {/* Hero */}
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="inline-block text-[11px] font-medium px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary mb-4">Events</span>
+          <h1 className="text-3xl lg:text-4xl font-bold mb-3">Learn. Build. Grow.</h1>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Every week we share a technical lecture, an engineering conversation, and a platform update so builders can learn from real systems and grow together.
+          </p>
         </div>
 
-        <div className="flex gap-2 mb-8">
-          <button onClick={() => setTab("upcoming")} className={cn("px-4 py-2 rounded-lg text-sm font-medium transition-colors", tab === "upcoming" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}>
-            Upcoming Sessions
-          </button>
-          <button onClick={() => setTab("past")} className={cn("px-4 py-2 rounded-lg text-sm font-medium transition-colors", tab === "past" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}>
-            Past Sessions
-          </button>
+        {/* Inside a Session */}
+        <div className="glass-panel rounded-2xl p-6">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Inside a Session</h2>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {["Real architecture discussions", "Hands-on problem solving", "Open technical questions", "Shared learning from real experiences", "Builders helping builders"].map(chip => (
+              <span key={chip} className="text-[11px] px-3 py-1.5 rounded-full border border-border bg-muted/50 text-muted-foreground">{chip}</span>
+            ))}
+          </div>
+          <div className="grid sm:grid-cols-3 gap-3">
+            <div className="glass-panel rounded-lg p-4 text-center">
+              <Globe className="h-5 w-5 mx-auto mb-2 text-crystal-cyan" />
+              <p className="text-xs text-muted-foreground">Builders from multiple countries</p>
+            </div>
+            <div className="glass-panel rounded-lg p-4 text-center">
+              <Radio className="h-5 w-5 mx-auto mb-2 text-crystal-magenta" />
+              <p className="text-xs text-muted-foreground">Weekly live sessions</p>
+            </div>
+            <div className="glass-panel rounded-lg p-4 text-center">
+              <Zap className="h-5 w-5 mx-auto mb-2 text-crystal-violet" />
+              <p className="text-xs text-muted-foreground">Cloud · AI · Infrastructure</p>
+            </div>
+          </div>
         </div>
 
-        {tab === "upcoming" ? (
-          <div className="grid md:grid-cols-2 gap-4">
-            {upcomingEvents.map(ev => (
-              <div key={ev.id} className="glass-panel rounded-xl p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={cn("text-[10px] px-2 py-0.5 rounded-full border", typeColors[ev.type])}>{ev.type}</span>
+        {/* Featured Session */}
+        {featured && (
+          <div>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Featured Session</h2>
+            <a href={featured.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:border-primary/20 transition-colors group block">
+              <div className="md:w-80 h-44 rounded-xl bg-muted/50 flex items-center justify-center shrink-0 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-crystal-violet/20 via-transparent to-crystal-cyan/15" />
+                <Play className="h-12 w-12 text-muted-foreground/50 group-hover:text-primary transition-colors" />
+              </div>
+              <div className="flex-1 flex flex-col justify-center">
+                <span className={cn("text-[10px] px-2 py-0.5 rounded-full border w-fit mb-3", typeColors[featured.type])}>{featured.type}</span>
+                <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{featured.title}</h3>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex -space-x-2">
+                    {featured.speakers.map(s => <SpeakerAvatar key={s.name} name={s.name} />)}
+                  </div>
+                  <span className="text-xs text-muted-foreground">{featured.speakers.map(s => s.name).join(", ")}</span>
                 </div>
-                <h3 className="text-sm font-semibold mb-1">{ev.title}</h3>
-                <p className="text-xs text-muted-foreground mb-3">{ev.description}</p>
-                <div className="flex items-center gap-3 text-[10px] text-muted-foreground mb-4">
-                  <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {ev.date}</span>
-                  <span>{ev.time}</span>
-                  <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {ev.speaker}</span>
-                </div>
-                <button className="w-full rounded-lg bg-primary/10 text-primary px-4 py-2 text-xs font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-1.5">
-                  Register <ArrowRight className="h-3 w-3" />
+                <button className="rounded-lg bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 w-fit">
+                  Watch Session <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {pastEvents.map(ev => (
-              <div key={ev.id} className="glass-panel rounded-xl p-4 flex items-center gap-4">
-                <span className={cn("text-[10px] px-2 py-0.5 rounded-full border shrink-0", typeColors[ev.type])}>{ev.type}</span>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">{ev.title}</p>
-                  <p className="text-[10px] text-muted-foreground">{ev.date} · {ev.speaker}</p>
-                </div>
-                <button className="text-xs text-primary hover:text-primary/80">Watch Recording</button>
-              </div>
-            ))}
+            </a>
           </div>
         )}
+
+        {/* Filters */}
+        <div className="flex flex-wrap gap-4">
+          <div className="flex gap-1.5">
+            <span className="text-[10px] text-muted-foreground self-center mr-1">Series:</span>
+            {([["all", "All"], ["infracodebase", "Infracodebase"], ["buildwithher", "Build With Her"]] as [SeriesFilter, string][]).map(([val, label]) => (
+              <button key={val} onClick={() => setSeriesFilter(val)} className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors", seriesFilter === val ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground bg-muted/50")}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-1.5">
+            <span className="text-[10px] text-muted-foreground self-center mr-1">Type:</span>
+            {([["all", "All Types"], ["conversation", "Conversation"], ["technical", "Technical Session"], ["webinar", "Live Webinar"], ["career", "Career Talk"]] as [TypeFilter, string][]).map(([val, label]) => (
+              <button key={val} onClick={() => setTypeFilter(val)} className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors", typeFilter === val ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground bg-muted/50")}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Series: Infracodebase */}
+        {(seriesFilter === "all" || seriesFilter === "infracodebase") && infraEvents.length > 0 && (
+          <div>
+            <div className="mb-4">
+              <h2 className="text-lg font-bold mb-1">Infracodebase</h2>
+              <p className="text-xs text-muted-foreground">Technical deep dives into platform engineering, AI infrastructure, security practices, and real-world cloud systems.</p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {infraEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
+            </div>
+          </div>
+        )}
+
+        {/* Series: Build With Her */}
+        {(seriesFilter === "all" || seriesFilter === "buildwithher") && bwhEvents.length > 0 && (
+          <div>
+            <div className="mb-4">
+              <h2 className="text-lg font-bold mb-1">Build With Her</h2>
+              <p className="text-xs text-muted-foreground">Conversations with builders about career paths, leadership journeys, and breaking into infrastructure and cloud engineering.</p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {bwhEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
+            </div>
+          </div>
+        )}
+
+        {/* Watch All Sessions */}
+        <div>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Watch All Sessions</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map(ev => <EventCard key={ev.id} event={ev} />)}
+          </div>
+        </div>
       </div>
     </AppLayout>
   );

@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, TrendingUp, Trophy, Calendar, 
-  User, MessageSquare, Play, Zap, LogIn, ChevronLeft, ChevronRight,
-  X
+  User, MessageSquare, Play, ChevronLeft, ChevronRight,
+  X, FolderOpen, Palette
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -23,7 +23,7 @@ const navItems = [
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/videos", label: "Video Library", icon: Play },
-  { path: "/profile", label: "Profile", icon: User },
+  { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
@@ -101,9 +101,34 @@ export function MobileNav() {
           <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
           <span className="font-mono font-bold text-sm">Infracodebase<span className="text-primary">U</span></span>
         </Link>
-        <button onClick={() => setOpen(true)} className="p-2 text-muted-foreground hover:text-foreground">
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
-        </button>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="rounded-full hover:opacity-80 transition-opacity">
+                <Avatar className="h-8 w-8 border border-border/50">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">U</AvatarFallback>
+                </Avatar>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem asChild>
+                <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                  <User className="h-4 w-4" />
+                  <span>Profile</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/appearance" className="flex items-center gap-2 cursor-pointer">
+                  <Palette className="h-4 w-4" />
+                  <span>Appearance</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <button onClick={() => setOpen(true)} className="p-2 text-muted-foreground hover:text-foreground">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+        </div>
       </header>
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden">
@@ -147,8 +172,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="rounded-full hover:opacity-80 transition-opacity">
-              <Avatar className="h-9 w-9 border border-border/50">
-                <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+              <Avatar className="h-10 w-10 border-2 border-border/50 shadow-lg">
+                <AvatarFallback className="bg-primary/10 text-primary text-sm font-bold">
                   U
                 </AvatarFallback>
               </Avatar>
@@ -161,8 +186,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 <span>Profile</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2">
-              <span className="text-sm">Appearance</span>
+            <DropdownMenuItem asChild>
+              <Link to="/appearance" className="flex items-center gap-2 cursor-pointer">
+                <Palette className="h-4 w-4" />
+                <span>Appearance</span>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
