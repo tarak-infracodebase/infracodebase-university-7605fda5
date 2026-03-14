@@ -115,6 +115,62 @@ function SpeakerAvatar({ name }: { name: string }) {
   );
 }
 
+function SegmentedSelector<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: (v: T) => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [highlight, setHighlight] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const activeIdx = options.findIndex(o => o.value === value);
+    const buttons = containerRef.current.querySelectorAll<HTMLButtonElement>("[data-seg-btn]");
+    if (buttons[activeIdx]) {
+      const btn = buttons[activeIdx];
+      setHighlight({ left: btn.offsetLeft, width: btn.offsetWidth });
+    }
+  }, [value, options]);
+
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider shrink-0">{label}</span>
+      <div
+        ref={containerRef}
+        className="relative flex items-center rounded-full bg-muted/40 border border-border/50 p-1 backdrop-blur-sm shadow-[0_0_12px_-4px_hsl(var(--primary)/0.15)]"
+      >
+        {/* Sliding highlight */}
+        <div
+          className="absolute top-1 bottom-1 rounded-full bg-primary/15 border border-primary/25 shadow-[0_0_8px_-2px_hsl(var(--primary)/0.3)] transition-all duration-[250ms] ease-out"
+          style={{ left: highlight.left, width: highlight.width }}
+        />
+        {options.map(opt => (
+          <button
+            key={opt.value}
+            data-seg-btn
+            onClick={() => onChange(opt.value)}
+            className={cn(
+              "relative z-10 px-4 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 whitespace-nowrap",
+              value === opt.value
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground/70"
+            )}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function EventCard({ event }: { event: EventItem }) {
   return (
     <a
