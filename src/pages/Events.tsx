@@ -3,6 +3,13 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap } from "lucide-react";
 
+import legalBg from "@/assets/events/legal-background.png";
+import webinarAi from "@/assets/events/webinar-ai-trust.png";
+import webinarDec from "@/assets/events/webinar-dec.png";
+import webinarFeb from "@/assets/events/webinar-feb.png";
+import webinarLalit from "@/assets/events/webinar-lalit.png";
+import webinarShannon from "@/assets/events/webinar-shannon.png";
+
 type SeriesFilter = "all" | "infracodebase" | "buildwithher";
 type TypeFilter = "all" | "conversation" | "technical" | "webinar" | "career";
 
@@ -14,7 +21,7 @@ interface EventItem {
   speakers: { name: string; role?: string }[];
   link: string;
   platform: "youtube" | "linkedin";
-  thumbnail?: string;
+  thumbnail: string;
   featured?: boolean;
 }
 
@@ -24,9 +31,10 @@ const events: EventItem[] = [
     title: "Building Self-Service, Secure, and Scalable Developer Platforms",
     series: "infracodebase",
     type: "Technical Session",
-    speakers: [{ name: "Lalit", role: "Founder" }, { name: "Tarak", role: "Engineer" }, { name: "Justin", role: "Platform Lead" }],
+    speakers: [{ name: "Lalit", role: "Sr Cloud Architect" }, { name: "Tarak", role: "Co-Founder" }, { name: "Justin", role: "Founder" }],
     link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
     platform: "youtube",
+    thumbnail: webinarLalit,
     featured: true,
   },
   {
@@ -34,45 +42,50 @@ const events: EventItem[] = [
     title: "Legal Background to Cloud Engineering: What It Really Takes",
     series: "buildwithher",
     type: "Career Talk",
-    speakers: [{ name: "Shannon", role: "Cloud Engineer" }],
+    speakers: [{ name: "Tarak", role: "Co-Founder" }, { name: "Fatima", role: "Software Engineer" }],
     link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
     platform: "linkedin",
+    thumbnail: legalBg,
   },
   {
     id: 3,
     title: "Building with AI You Can Trust",
     series: "infracodebase",
     type: "Technical Session",
-    speakers: [{ name: "Tarak", role: "Engineer" }, { name: "Lalit", role: "Founder" }],
+    speakers: [{ name: "Fatima", role: "Software Engineer" }, { name: "Tarak", role: "Co-Founder" }],
     link: "https://www.youtube.com/watch?v=mlIePKsqa-4",
     platform: "youtube",
+    thumbnail: webinarAi,
   },
   {
     id: 4,
     title: "Delivering Secure Cloud Infrastructure at Scale with AI",
     series: "infracodebase",
     type: "Live Webinar",
-    speakers: [{ name: "Alex", role: "Security Lead" }, { name: "Lalit", role: "Founder" }],
+    speakers: [{ name: "Justin", role: "Founder" }, { name: "Seif Hateb", role: "Lead Security Engineer" }],
     link: "https://www.youtube.com/watch?v=SLpgv8zCzPU",
     platform: "youtube",
+    thumbnail: webinarDec,
   },
   {
     id: 5,
     title: "Operating Cloud Engineering at Scale",
     series: "infracodebase",
     type: "Live Webinar",
-    speakers: [{ name: "Justin", role: "Platform Lead" }, { name: "Tarak", role: "Engineer" }],
+    speakers: [{ name: "Alex", role: "Director, Cloud Engineering" }, { name: "Tarak", role: "Co-Founder" }, { name: "Justin", role: "Founder" }],
     link: "https://www.youtube.com/watch?v=H8Osx6GcLSE",
     platform: "youtube",
+    thumbnail: webinarFeb,
   },
   {
     id: 6,
     title: "No Straight Lines: Breaking into Tech and Rising to Leadership",
     series: "buildwithher",
     type: "Conversation",
-    speakers: [{ name: "Shannon", role: "Cloud Engineer" }, { name: "Fatima", role: "Engineering Manager" }],
+    speakers: [{ name: "Shannon", role: "Principal Solutions Architect" }],
     link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
     platform: "youtube",
+    thumbnail: webinarShannon,
   },
 ];
 
@@ -90,12 +103,13 @@ const speakerInitialColors: Record<string, string> = {
   Shannon: "hsl(var(--crystal-magenta))",
   Alex: "hsl(var(--crystal-orange))",
   Fatima: "hsl(var(--crystal-yellow))",
+  "Seif Hateb": "hsl(var(--crystal-red))",
 };
 
 function SpeakerAvatar({ name }: { name: string }) {
   const bg = speakerInitialColors[name] || "hsl(var(--muted))";
   return (
-    <div className="h-8 w-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0" style={{ backgroundColor: bg }}>
+    <div className="h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0 ring-2 ring-background" style={{ backgroundColor: bg }}>
       {name[0]}
     </div>
   );
@@ -103,20 +117,42 @@ function SpeakerAvatar({ name }: { name: string }) {
 
 function EventCard({ event }: { event: EventItem }) {
   return (
-    <a href={event.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-xl overflow-hidden group hover:border-primary/20 transition-colors block">
-      {/* Thumbnail placeholder */}
-      <div className="h-40 bg-muted/50 relative flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-crystal-violet/10 via-transparent to-crystal-cyan/10" />
-        <Play className="h-10 w-10 text-muted-foreground/40 group-hover:text-primary/60 transition-colors" />
-        <span className={cn("absolute top-3 left-3 text-[10px] px-2 py-0.5 rounded-full border", typeColors[event.type])}>{event.type}</span>
+    <a
+      href={event.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative rounded-xl overflow-hidden bg-card border border-border/30 transition-all duration-[250ms] ease-out hover:scale-105 hover:-translate-y-1.5 hover:z-10 hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.3),0_4px_16px_-4px_hsl(0_0%_0%/0.4)] hover:border-primary/30 block"
+    >
+      {/* Thumbnail */}
+      <div className="aspect-video relative overflow-hidden">
+        <img
+          src={event.thumbnail}
+          alt={event.title}
+          className="w-full h-full object-cover transition-transform duration-[250ms] ease-out group-hover:scale-[1.03]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
+        <span className={cn("absolute top-3 left-3 text-[10px] px-2.5 py-1 rounded-full border backdrop-blur-sm font-medium", typeColors[event.type])}>
+          {event.type}
+        </span>
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-[250ms]">
+          <div className="h-12 w-12 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
+            <Play className="h-5 w-5 text-primary-foreground ml-0.5" fill="currentColor" />
+          </div>
+        </div>
       </div>
-      <div className="p-4">
-        <h3 className="text-sm font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">{event.title}</h3>
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex -space-x-2">
+
+      {/* Content */}
+      <div className="p-4 space-y-3">
+        <h3 className="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+          {event.title}
+        </h3>
+        <div className="flex items-center gap-2">
+          <div className="flex -space-x-1.5">
             {event.speakers.map(s => <SpeakerAvatar key={s.name} name={s.name} />)}
           </div>
-          <span className="text-[11px] text-muted-foreground">{event.speakers.map(s => s.name).join(", ")}</span>
+          <span className="text-[11px] text-muted-foreground truncate">
+            {event.speakers.map(s => s.name).join(", ")}
+          </span>
         </div>
         <button className="w-full rounded-lg bg-primary/10 text-primary px-4 py-2 text-xs font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-1.5">
           {event.platform === "youtube" ? "Watch on YouTube" : "Join on LinkedIn"}
@@ -185,16 +221,16 @@ const Events = () => {
         {featured && (
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Featured Session</h2>
-            <a href={featured.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:border-primary/20 transition-colors group block">
-              <div className="md:w-80 h-44 rounded-xl bg-muted/50 flex items-center justify-center shrink-0 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-crystal-violet/20 via-transparent to-crystal-cyan/15" />
-                <Play className="h-12 w-12 text-muted-foreground/50 group-hover:text-primary transition-colors" />
+            <a href={featured.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-primary/20 transition-all duration-[250ms] group block">
+              <div className="md:w-[400px] shrink-0 relative overflow-hidden">
+                <img src={featured.thumbnail} alt={featured.title} className="w-full h-full object-cover min-h-[200px] transition-transform duration-[250ms] group-hover:scale-[1.03]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80 hidden md:block" />
               </div>
-              <div className="flex-1 flex flex-col justify-center">
+              <div className="flex-1 flex flex-col justify-center p-6">
                 <span className={cn("text-[10px] px-2 py-0.5 rounded-full border w-fit mb-3", typeColors[featured.type])}>{featured.type}</span>
                 <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{featured.title}</h3>
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="flex -space-x-2">
+                  <div className="flex -space-x-1.5">
                     {featured.speakers.map(s => <SpeakerAvatar key={s.name} name={s.name} />)}
                   </div>
                   <span className="text-xs text-muted-foreground">{featured.speakers.map(s => s.name).join(", ")}</span>
@@ -234,7 +270,7 @@ const Events = () => {
               <h2 className="text-lg font-bold mb-1">Infracodebase</h2>
               <p className="text-xs text-muted-foreground">Technical deep dives into platform engineering, AI infrastructure, security practices, and real-world cloud systems.</p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {infraEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
             </div>
           </div>
@@ -247,7 +283,7 @@ const Events = () => {
               <h2 className="text-lg font-bold mb-1">Build With Her</h2>
               <p className="text-xs text-muted-foreground">Conversations with builders about career paths, leadership journeys, and breaking into infrastructure and cloud engineering.</p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {bwhEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
             </div>
           </div>
@@ -256,7 +292,7 @@ const Events = () => {
         {/* Watch All Sessions */}
         <div>
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Watch All Sessions</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map(ev => <EventCard key={ev.id} event={ev} />)}
           </div>
         </div>
