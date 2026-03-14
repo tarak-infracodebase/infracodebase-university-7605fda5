@@ -1,12 +1,15 @@
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { Share2, MapPin, Calendar, Flame, Trophy } from "lucide-react";
+import buildWithHerBg from "@/assets/build-with-her-bg.png";
 
 const projects = [
-  { name: "VPC Multi-Region Setup", desc: "Production-grade VPC with cross-region peering", tags: ["Networking", "Architecture"], color: "hsl(var(--crystal-cyan))" },
-  { name: "IAM Policy Framework", desc: "Least-privilege access control for platform teams", tags: ["Security", "Governance"], color: "hsl(var(--crystal-magenta))" },
-  { name: "Auto-Scaling Pipeline", desc: "Self-healing infrastructure with health checks", tags: ["Resilience", "Automation"], color: "hsl(var(--crystal-green))" },
-  { name: "Multi-Env Config", desc: "Environment-aware configuration management", tags: ["Configuration", "DevOps"], color: "hsl(var(--crystal-orange))" },
+  { name: "Azure APIM Landing Zone", desc: "Production-grade Azure API Management landing zone with Terraform following security best practices.", tags: ["Azure", "Terraform"], color: "hsl(var(--crystal-cyan))" },
+  { name: "Production Web App over SQL on AWS", desc: "Production-grade web application with SQL database on AWS using Terraform — security-hardened, Well-Architected, and compliant.", tags: ["AWS", "Terraform"], color: "hsl(var(--crystal-magenta))" },
+  { name: "AWS-Security-Insights-Pipeline", desc: "Real-time AWS threat detection and auto-remediation system analysis.", tags: ["AWS", "Security"], color: "hsl(var(--crystal-green))" },
+  { name: "AWS Secure Web Application", desc: "Production-ready AWS web application using ALB, WAF, and security-by-design infrastructure.", tags: ["AWS", "Security"], color: "hsl(var(--crystal-orange))" },
+  { name: "Azure Active Directory Lab Environment", desc: "Terraform workspace for deploying a Windows Server Active Directory domain with domain controllers and enterprise configuration.", tags: ["Azure", "AD"], color: "hsl(var(--crystal-violet))" },
+  { name: "Azure AD DS Hybrid Architecture", desc: "Hybrid Active Directory Domain Services architecture extending on-premises AD to Azure using Terraform.", tags: ["Azure", "Hybrid"], color: "hsl(var(--crystal-yellow))" },
 ];
 
 const heatmapData = Array.from({ length: 52 }, () =>
