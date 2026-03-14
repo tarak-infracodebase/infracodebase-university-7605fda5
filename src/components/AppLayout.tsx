@@ -30,7 +30,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Logo */}
       <div className="flex items-center h-14 px-3 border-b border-border/50">
         <Link to="/" className="flex items-center gap-2 overflow-hidden">
-          <img src={brandCrystal} alt="Infracodebase" className="h-7 w-7 object-contain shrink-0" />
+          <CrystalIcon color="hsl(var(--crystal-violet))" size={28} />
           {!collapsed && (
             <span className="font-mono font-bold text-sm text-foreground whitespace-nowrap">
               Infracodebase<span className="text-primary">U</span>
