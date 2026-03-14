@@ -18,9 +18,6 @@ const Index = () => {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 gradient-hero" />
-        <div className="absolute top-20 right-10 opacity-20 hidden lg:block">
-          <img src={brandCrystal} alt="" className="w-80 h-auto" />
-        </div>
         <div className="relative px-6 lg:px-12 py-20 lg:py-32 max-w-5xl">
           <div className="inline-flex items-center gap-2 rounded-full crystal-badge px-4 py-1.5 text-xs text-primary mb-6">
             <CrystalIcon size={14} />
