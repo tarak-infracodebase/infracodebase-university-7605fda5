@@ -325,25 +325,7 @@ const Events = () => {
           </div>
         )}
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-4">
-          <div className="flex gap-1.5">
-            <span className="text-[10px] text-muted-foreground self-center mr-1">Series:</span>
-            {([["all", "All"], ["infracodebase", "Infracodebase"], ["buildwithher", "Build With Her"]] as [SeriesFilter, string][]).map(([val, label]) => (
-              <button key={val} onClick={() => setSeriesFilter(val)} className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors", seriesFilter === val ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground bg-muted/50")}>
-                {label}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-1.5">
-            <span className="text-[10px] text-muted-foreground self-center mr-1">Type:</span>
-            {([["all", "All Types"], ["conversation", "Conversation"], ["technical", "Technical Session"], ["webinar", "Live Webinar"], ["career", "Career Talk"]] as [TypeFilter, string][]).map(([val, label]) => (
-              <button key={val} onClick={() => setTypeFilter(val)} className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors", typeFilter === val ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground bg-muted/50")}>
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Filters removed — now placed under hero */}
 
         {/* Series: Infracodebase */}
         {(seriesFilter === "all" || seriesFilter === "infracodebase") && infraEvents.length > 0 && (
