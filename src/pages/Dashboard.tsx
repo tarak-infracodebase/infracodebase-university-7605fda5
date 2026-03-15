@@ -55,11 +55,13 @@ const Dashboard = () => {
   const [hoveredCrystal, setHoveredCrystal] = useState<number | null>(null);
   const [hoveredLocked, setHoveredLocked] = useState<number | null>(null);
 
-  // Current track info
+  // Current track info — resolved dynamically from curriculum data
   const currentTrack = learningPaths.find(p => p.id === "real-infrastructure");
-  const currentTrackLessons = currentTrack?.courses.reduce((t, c) => t + c.lessons.length, 0) || 0;
-  const completedLessons = 4;
-  const progressPct = Math.round((completedLessons / currentTrackLessons) * 100);
+  const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) || [];
+  const currentTrackLessons = allCurrentLessons.length;
+  const completedLessons = 2; // TODO: replace with real progress tracking
+  const nextLesson = allCurrentLessons[completedLessons]; // first incomplete lesson
+  const progressPct = currentTrackLessons > 0 ? Math.round((completedLessons / currentTrackLessons) * 100) : 0;
 
   // Recommended next
   const nextTrack = learningPaths.find(p => p.id === "architecture-diagrams");
