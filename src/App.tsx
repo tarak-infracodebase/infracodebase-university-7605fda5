@@ -17,6 +17,7 @@ import VideoLibrary from "./pages/VideoLibrary";
 import FeedbackPage from "./pages/FeedbackPage";
 import Resources from "./pages/Resources";
 import Appearance from "./pages/Appearance";
+import Manifesto from "./pages/Manifesto";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/feedback" element={<FeedbackPage />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/appearance" element={<Appearance />} />
+            <Route path="/manifesto" element={<Manifesto />} />
             <Route path="/path/:pathId" element={<LearningPathPage />} />
             <Route path="/path/:pathId/lesson/:lessonId" element={<LessonPage />} />
             <Route path="*" element={<NotFound />} />
