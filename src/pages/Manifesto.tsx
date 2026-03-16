@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "@fontsource/caveat/700.css";
 import { CrystalIcon } from "@/components/DashboardWidgets";
+import signatureImg from "@/assets/signature.png";
 
 const manifestoParagraphs = [
   "You don't learn infrastructure by watching tutorials.",
