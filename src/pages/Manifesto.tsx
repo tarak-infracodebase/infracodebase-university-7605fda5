@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "@fontsource/caveat/700.css";
 import { CrystalIcon } from "@/components/DashboardWidgets";
+import signatureImg from "@/assets/signature.png";
 
 const manifestoParagraphs = [
   "You don't learn infrastructure by watching tutorials.",
@@ -39,7 +40,7 @@ const Manifesto = () => {
   return (
     <div className="min-h-screen bg-[hsl(0,0%,100%)] text-[hsl(228,20%,12%)] selection:bg-[hsl(260,70%,58%)/0.15]">
       {/* Hero */}
-      <section className="flex flex-col items-center justify-center px-6 pt-32 pb-24 md:pt-44 md:pb-36">
+      <section className="flex flex-col items-center justify-center px-6 pt-32 pb-12 md:pt-44 md:pb-16">
         <CrystalIcon size={48} color="hsl(260,70%,58%)" />
 
         <h1
@@ -66,7 +67,7 @@ const Manifesto = () => {
       </section>
 
       {/* Manifesto */}
-      <section className="px-6 py-24 md:py-36">
+      <section className="px-6 pt-10 md:pt-14 pb-24 md:pb-36">
         <div className="mx-auto max-w-xl space-y-10 md:space-y-14">
           {manifestoParagraphs.map((text, i) => {
             const isShort = !text.includes("\n") && text.length < 50;
@@ -83,6 +84,14 @@ const Manifesto = () => {
               </p>
             );
           })}
+          {/* Signature */}
+          <div className="flex justify-center pt-16 md:pt-20">
+            <img
+              src={signatureImg}
+              alt="Founder's signature"
+              className="w-[220px] md:w-[260px] h-auto"
+            />
+          </div>
         </div>
       </section>
 
