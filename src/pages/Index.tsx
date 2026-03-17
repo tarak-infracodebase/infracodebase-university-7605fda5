@@ -28,8 +28,11 @@ const Index = () => {
           <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
             Learn. Build. Grow.
           </h1>
-          <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-2xl">
-            Learn infrastructure by working on real architectures.
+          <p className="text-lg text-foreground font-medium leading-relaxed mb-3 max-w-2xl">
+            Guided learning paths designed for every level.
+          </p>
+          <p className="text-base text-muted-foreground leading-relaxed mb-10 max-w-2xl">
+            From first-time builders to specialists, learn how to design, build, and operate infrastructure using an agent control plane — and build the skills to work at scale.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link to="/curriculum" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors shadow-glow">

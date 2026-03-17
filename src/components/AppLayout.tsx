@@ -101,9 +101,11 @@ export function MobileNav() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
-        <Link to="/" className="flex items-center gap-2">
-          <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
-          <span className="font-mono font-bold text-sm">Infracodebase<span className="text-primary">U</span></span>
+        <Link to="/" className="flex items-center">
+          <span className="text-sm tracking-wide sidebar-logo-gradient">
+            <span className="font-medium">Infracodebase</span>{' '}
+            <span className="font-normal">University</span>
+          </span>
         </Link>
         <div className="flex items-center gap-2">
           <DropdownMenu>

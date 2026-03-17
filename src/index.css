@@ -171,6 +171,16 @@
     );
   }
 
+  .sidebar-logo-gradient {
+    background: linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.88;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.03em;
+  }
+
   /* Scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
