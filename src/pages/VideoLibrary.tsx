@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 const videoTopics = [
-  "All", "Getting Started", "Infrastructure Architecture",
+  "All", "Getting Started", "Infrastructure Architecture", "Architecture Documentation",
 ];
 
 interface VideoItem {
@@ -38,6 +38,15 @@ const videos: VideoItem[] = [
     description: "A practical walkthrough showing how infrastructure systems are designed, generated, and evolved using the Infracodebase model.",
     trackLabel: "Track 3 — Real Infrastructure Engineering",
     trackPath: "/path/real-infrastructure",
+  },
+  {
+    id: "5th-video",
+    title: "Architecture Diagrams & Living Documentation",
+    src: "/assets/5th_video.mp4",
+    category: "Architecture Documentation",
+    description: "A walkthrough of architecture diagrams and living documentation practices in modern infrastructure systems.",
+    trackLabel: "Track 4 — Architecture Diagrams & Living Documentation",
+    trackPath: "/path/architecture-diagrams",
   },
 ];
 
