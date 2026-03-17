@@ -242,7 +242,7 @@ const Events = () => {
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8 space-y-12">
         {/* Hero */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="inline-block text-[11px] font-medium px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary mb-4">Events</span>
+          <span className="inline-block text-[11px] font-medium px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary mb-4">Live Sessions</span>
   <h1 className="text-3xl lg:text-4xl font-bold mb-3">Live Architecture Sessions</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Real-time architecture discussions, advanced infrastructure topics, and shared learning with the community.
