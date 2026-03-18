@@ -42,7 +42,7 @@ const App = () => (
             <Route path="/feedback" element={<FeedbackPage />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/appearance" element={<Appearance />} />
-            <Route path="/manifesto" element={<Manifesto />} />
+            <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
             <Route path="/path/:pathId" element={<LearningPathPage />} />
             <Route path="/path/:pathId/lesson/:lessonId" element={<LessonPage />} />
             <Route path="*" element={<NotFound />} />
