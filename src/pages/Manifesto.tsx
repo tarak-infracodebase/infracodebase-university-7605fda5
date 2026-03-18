@@ -93,11 +93,11 @@ const Manifesto = () => {
 
       {/* Manifesto */}
       <section className="px-6 pt-6 md:pt-8 pb-24 md:pb-36">
-        <div className="mx-auto max-w-[680px]">
+        <div className="mx-auto max-w-[620px]">
           {manifestoParagraphs.map((p, i) => (
             <p
               key={i}
-              className={`font-sans leading-[1.65] whitespace-pre-line ${styleClasses[p.style]} ${i === 0 ? "!mt-0" : ""}`}
+              className={`font-sans leading-[1.75] whitespace-pre-line ${styleClasses[p.style]} ${i === 0 ? "!mt-0" : ""}`}
             >
               {p.text}
             </p>
