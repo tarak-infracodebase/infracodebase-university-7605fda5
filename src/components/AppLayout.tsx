@@ -18,13 +18,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/manifesto", label: "Manifesto", icon: BookOpen },
-  { path: "/roadmap", label: "Roadmap", icon: TrendingUp },
-  { path: "/dashboard", label: "Control Plane", icon: LayoutDashboard },
+  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/curriculum", label: "Curriculum", icon: BookOpen },
   { path: "/progress", label: "Progress", icon: TrendingUp },
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
-  { path: "/events", label: "Live Sessions", icon: Calendar },
-  { path: "/videos", label: "Infrastructure Sessions", icon: Play },
+  { path: "/events", label: "Events", icon: Calendar },
+  { path: "/videos", label: "Video Library", icon: Play },
   { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 
@@ -38,14 +37,12 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
     )}>
       {/* Logo */}
       <div className="flex items-center h-14 px-3 border-b border-border/50">
-        <Link to="/" className="flex items-center overflow-hidden">
-          {!collapsed ? (
-            <span className="text-sm tracking-wide whitespace-nowrap sidebar-logo-gradient">
-              <span className="font-medium">Infracodebase</span>{' '}
-              <span className="font-normal">University</span>
+        <Link to="/" className="flex items-center gap-2 overflow-hidden">
+          <CrystalIcon color="hsl(var(--crystal-violet))" size={28} />
+          {!collapsed && (
+            <span className="font-mono font-bold text-sm text-foreground whitespace-nowrap">
+              Infracodebase<span className="text-primary">U</span>
             </span>
-          ) : (
-            <span className="text-sm font-medium sidebar-logo-gradient">IU</span>
           )}
         </Link>
       </div>
@@ -101,11 +98,9 @@ export function MobileNav() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
-        <Link to="/" className="flex items-center">
-          <span className="text-sm tracking-wide sidebar-logo-gradient">
-            <span className="font-medium">Infracodebase</span>{' '}
-            <span className="font-normal">University</span>
-          </span>
+        <Link to="/" className="flex items-center gap-2">
+          <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
+          <span className="font-mono font-bold text-sm">Infracodebase<span className="text-primary">U</span></span>
         </Link>
         <div className="flex items-center gap-2">
           <DropdownMenu>
