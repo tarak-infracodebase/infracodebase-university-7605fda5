@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "@fontsource/caveat/700.css";
 import signatureImg from "@/assets/signature.png";
 
-type ParagraphStyle = "statement" | "narrative" | "supporting";
+type ParagraphStyle = "statement" | "narrative" | "supporting" | "emphasis";
 
 interface ManifestoParagraph {
   text: string;
@@ -21,7 +21,7 @@ const manifestoParagraphs: ManifestoParagraph[] = [
   { text: "They memorize commands.\nThey follow steps.\nThey deploy examples.", style: "narrative" },
   { text: "But they never learn how to think like an infrastructure engineer.", style: "narrative" },
   { text: "They never learn how systems behave when they scale.\nHow architectures evolve over time.\nHow small decisions turn into technical debt.\nOr resilience.", style: "narrative" },
-  { text: "That's the gap.", style: "statement" },
+  { text: "That's the gap.", style: "emphasis" },
   { text: "And that's why Infracodebase University exists.", style: "statement" },
   { text: "Not to teach you tools.", style: "narrative" },
   { text: "Tools change every year.", style: "narrative" },
@@ -34,8 +34,8 @@ const manifestoParagraphs: ManifestoParagraph[] = [
   { text: "You start asking how the system should work.", style: "narrative" },
   { text: "How it should scale.\nHow it should fail safely.\nHow teams should interact with it.", style: "supporting" },
   { text: "This is what real infrastructure engineering looks like.", style: "narrative" },
-  { text: "It's not a checklist.", style: "statement" },
-  { text: "It's systems thinking.", style: "statement" },
+  { text: "It's not a checklist.", style: "emphasis" },
+  { text: "It's systems thinking.", style: "emphasis" },
   { text: "And once you start seeing infrastructure that way, the way you build technology changes forever.", style: "narrative" },
   { text: "That's the journey you begin here.", style: "statement" },
   { text: "Welcome to Infracodebase University.", style: "statement" },
@@ -43,9 +43,10 @@ const manifestoParagraphs: ManifestoParagraph[] = [
 ];
 
 const styleClasses: Record<ParagraphStyle, string> = {
-  statement: "text-[22px] md:text-[26px] font-medium text-[hsl(228,20%,10%)] mt-14 md:mt-16",
+  statement: "text-[18px] md:text-[20px] font-normal text-[hsl(228,20%,10%)] mt-14 md:mt-16",
   narrative: "text-[16px] md:text-[18px] font-normal text-[hsl(220,10%,25%)] mt-8 md:mt-10",
   supporting: "text-[15px] md:text-[16px] font-normal text-[hsl(220,8%,50%)] mt-8 md:mt-10",
+  emphasis: "text-[18px] md:text-[20px] font-medium text-[hsl(228,20%,10%)] mt-14 md:mt-16",
 };
 
 const Manifesto = () => {
