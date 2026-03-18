@@ -37,11 +37,32 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
     )}>
       {/* Logo */}
       <div className="flex items-center h-14 px-3 border-b border-border/50">
-        <Link to="/" className="flex items-center gap-2 overflow-hidden">
-          <CrystalIcon color="hsl(var(--crystal-violet))" size={28} />
-          {!collapsed && (
-            <span className="font-mono font-bold text-sm text-foreground whitespace-nowrap">
-              Infracodebase<span className="text-primary">U</span>
+        <Link to="/" className="flex items-center overflow-hidden">
+          {collapsed ? (
+            <span
+              className="text-lg font-semibold"
+              style={{
+                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.88,
+              }}
+            >
+              I
+            </span>
+          ) : (
+            <span
+              className="text-[13px] leading-tight whitespace-nowrap tracking-wide"
+              style={{
+                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.88,
+                filter: "saturate(0.85)",
+              }}
+            >
+              <span className="font-medium">Infracodebase</span>{" "}
+              <span className="font-normal">University</span>
             </span>
           )}
         </Link>
