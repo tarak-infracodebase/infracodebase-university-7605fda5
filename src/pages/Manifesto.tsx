@@ -21,7 +21,7 @@ const manifestoParagraphs: ManifestoParagraph[] = [
   { text: "They memorize commands.\nThey follow steps.\nThey deploy examples.", style: "narrative" },
   { text: "But they never learn how to think like an infrastructure engineer.", style: "narrative" },
   { text: "They never learn how systems behave when they scale.\nHow architectures evolve over time.\nHow small decisions turn into technical debt.\nOr resilience.", style: "narrative" },
-  { text: "That's the gap.", style: "statement" },
+  { text: "That's the gap.", style: "emphasis" },
   { text: "And that's why Infracodebase University exists.", style: "statement" },
   { text: "Not to teach you tools.", style: "narrative" },
   { text: "Tools change every year.", style: "narrative" },
