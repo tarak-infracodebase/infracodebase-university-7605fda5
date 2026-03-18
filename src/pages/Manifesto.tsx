@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "@fontsource/caveat/700.css";
 import signatureImg from "@/assets/signature.png";
 
-type ParagraphStyle = "statement" | "narrative" | "supporting";
+type ParagraphStyle = "statement" | "narrative" | "supporting" | "emphasis";
 
 interface ManifestoParagraph {
   text: string;
