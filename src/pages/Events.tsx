@@ -9,6 +9,7 @@ import webinarDec from "@/assets/events/webinar-dec.png";
 import webinarFeb from "@/assets/events/webinar-feb.png";
 import webinarLalit from "@/assets/events/webinar-lalit.png";
 import webinarShannon from "@/assets/events/webinar-shannon.png";
+import webinarBrand from "@/assets/events/webinar-personal-brand.jpg";
 
 type SeriesFilter = "all" | "infracodebase" | "buildwithher";
 type TypeFilter = "all" | "conversation" | "technical" | "webinar" | "career";
@@ -26,6 +27,16 @@ interface EventItem {
 }
 
 const events: EventItem[] = [
+  {
+    id: 7,
+    title: "Do Engineers Need to Build a Personal Brand?",
+    series: "infracodebase",
+    type: "Conversation",
+    speakers: [{ name: "Divine", role: "Content Creator" }, { name: "Tarak", role: "Co-Founder" }],
+    link: "https://www.youtube.com/watch?v=5At76xVQngA",
+    platform: "youtube",
+    thumbnail: webinarBrand,
+  },
   {
     id: 1,
     title: "Building Self-Service, Secure, and Scalable Developer Platforms",
@@ -104,6 +115,7 @@ const speakerInitialColors: Record<string, string> = {
   Alex: "hsl(var(--crystal-orange))",
   Fatima: "hsl(var(--crystal-yellow))",
   "Seif Hateb": "hsl(var(--crystal-red))",
+  Divine: "hsl(var(--crystal-orange))",
 };
 
 function SpeakerAvatar({ name }: { name: string }) {
