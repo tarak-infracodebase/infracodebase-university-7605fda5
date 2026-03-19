@@ -65,17 +65,21 @@ const HandsOnExercises = () => {
               background: `linear-gradient(135deg, ${featuredTrack.accentColor}08, ${featuredTrack.accentColor}15)`,
             }}
           >
-            <div className="flex items-center gap-2 mb-3">
-              <span
-                className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
-                style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
-              >
-                Your Learning Path
-              </span>
-              <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
-                {featuredTrack.level}
-              </span>
-            </div>
+             <div className="flex items-center gap-2 mb-3">
+               <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+                 Track {trackNumberMap[featuredTrack.id]}
+               </span>
+               <span className="text-muted-foreground/30">·</span>
+               <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
+                 {featuredTrack.level}
+               </span>
+             </div>
+             <span
+               className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2"
+               style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
+             >
+               Your Learning Path
+             </span>
             <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: featuredTrack.color }}>
               {featuredTrack.title}
             </h2>
