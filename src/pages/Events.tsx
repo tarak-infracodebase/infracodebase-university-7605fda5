@@ -28,6 +28,16 @@ interface EventItem {
 
 const events: EventItem[] = [
   {
+    id: 7,
+    title: "Do Engineers Need to Build a Personal Brand?",
+    series: "infracodebase",
+    type: "Conversation",
+    speakers: [{ name: "Divine", role: "Content Creator" }, { name: "Tarak", role: "Co-Founder" }],
+    link: "https://www.youtube.com/watch?v=5At76xVQngA",
+    platform: "youtube",
+    thumbnail: webinarBrand,
+  },
+  {
     id: 1,
     title: "Building Self-Service, Secure, and Scalable Developer Platforms",
     series: "infracodebase",
