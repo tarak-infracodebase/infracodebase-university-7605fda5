@@ -781,7 +781,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "multiple-environments",
         title: "Multiple Environments",
-        description: "If every change is applied directly to production, even a small mistake could cause an outage.",
+        description: "Applying changes directly to production creates risk.\nSeparate development, testing, and production environments.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
