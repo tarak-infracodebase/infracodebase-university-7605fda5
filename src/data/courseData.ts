@@ -791,7 +791,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "enforcing-standards",
         title: "Enforcing Standards",
-        description: "As systems grow, different engineers modify infrastructure. Over time, inconsistency appears.",
+        description: "As systems grow, inconsistencies start to appear.\nApply security and operational standards across infrastructure.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
