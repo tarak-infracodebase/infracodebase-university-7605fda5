@@ -12,6 +12,14 @@ const methodSteps = [
   { label: "Iterate", description: "Refine until the system matches your intent" },
 ];
 
+const trackNumberMap: Record<string, number> = {
+  "track-2-hands-on": 2,
+  "track-3-hands-on": 3,
+  "track-4-hands-on": 4,
+  "track-5-hands-on": 5,
+  "track-6-hands-on": 6,
+};
+
 // Ordered tracks: Track 2 (Foundations) first, then 3, 4, 5, 6
 const orderedTracks = [
   handsOnTracks.find(t => t.id === "track-2-hands-on")!,
@@ -57,17 +65,21 @@ const HandsOnExercises = () => {
               background: `linear-gradient(135deg, ${featuredTrack.accentColor}08, ${featuredTrack.accentColor}15)`,
             }}
           >
-            <div className="flex items-center gap-2 mb-3">
-              <span
-                className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
-                style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
-              >
-                Your Learning Path
-              </span>
-              <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
-                {featuredTrack.level}
-              </span>
-            </div>
+             <div className="flex items-center gap-2 mb-3">
+               <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+                 Track {trackNumberMap[featuredTrack.id]}
+               </span>
+               <span className="text-muted-foreground/30">·</span>
+               <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
+                 {featuredTrack.level}
+               </span>
+             </div>
+             <span
+               className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2"
+               style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
+             >
+               Your Learning Path
+             </span>
             <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: featuredTrack.color }}>
               {featuredTrack.title}
             </h2>
@@ -126,10 +138,10 @@ const HandsOnExercises = () => {
               className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
             >
               <div className="flex items-center gap-2 mb-4">
-                <div
-                  className="h-2 w-10 rounded-full"
-                  style={{ background: track.color }}
-                />
+                <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+                  Track {trackNumberMap[track.id]}
+                </span>
+                <span className="text-muted-foreground/30">·</span>
                 <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
                   {track.level}
                 </span>
