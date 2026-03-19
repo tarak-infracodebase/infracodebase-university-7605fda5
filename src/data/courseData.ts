@@ -803,7 +803,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "designing-for-failure",
         title: "Designing for Failure",
-        description: "Instead of assuming the system will never fail, you design infrastructure that continues operating when failures occur.",
+        description: "Infrastructure systems inevitably experience failures.\nYou will learn how to design infrastructure that continues operating when failures occur.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
