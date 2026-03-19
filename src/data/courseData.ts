@@ -773,7 +773,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "debugging-iteration",
         title: "Debugging and Iteration",
-        description: "Infrastructure rarely works perfectly the first time. Sooner or later, you will encounter situations that require debugging and iteration.",
+        description: "Infrastructure rarely works perfectly the first time.\nYou will learn how to debug and iterate on infrastructure generation.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
