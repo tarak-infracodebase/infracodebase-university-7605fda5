@@ -414,7 +414,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "organizing-infrastructure",
         title: "Organizing Infrastructure",
-        description: "Infrastructure design, security, governance, and architecture decisions often involve multiple roles. Understanding how infrastructure work is organized will help you collaborate more effectively.",
+        description: "Infrastructure design, security, governance, and architecture decisions often involve multiple roles.\nYou will learn how infrastructure work is organized and how teams collaborate effectively.",
         difficulty: "beginner",
         estimatedTime: "25 min",
         lessons: [
