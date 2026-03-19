@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, AlertTriangle, Lightbulb, PenTool, ChevronRight, Zap } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, AlertTriangle, Lightbulb, PenTool, ChevronRight, Zap, RefreshCw } from "lucide-react";
 import { useState } from "react";
 
 const crystalColors = [
@@ -138,6 +138,19 @@ const LessonPage = () => {
                 <h2 className="text-base font-bold mb-3">Engineering Reflection</h2>
                 <div className="rounded-xl border-l-4 border-crystal-magenta/50 bg-card/30 p-5 text-sm text-muted-foreground leading-relaxed">
                   {lesson.engineeringReflection}
+                </div>
+              </section>
+            )}
+
+            {/* Modification Exercise */}
+            {lesson.modificationExercise && (
+              <section className="mb-8">
+                <div className="flex items-center gap-2 mb-3">
+                  <RefreshCw className="h-4 w-4 text-crystal-magenta" />
+                  <h2 className="text-base font-bold">Modification Exercise</h2>
+                </div>
+                <div className="rounded-xl border border-crystal-magenta/20 bg-crystal-magenta/5 p-5 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {lesson.modificationExercise}
                 </div>
               </section>
             )}
