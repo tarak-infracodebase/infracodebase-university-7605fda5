@@ -24,6 +24,8 @@ export interface HandsOnTrack {
   trackNumber: number;
   title: string;
   description: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  curriculumTrackId: string;
   color: string;
   accentColor: string;
   moduleCount: number;
@@ -35,8 +37,10 @@ export const handsOnTracks: HandsOnTrack[] = [
   {
     id: "track-2-hands-on",
     trackNumber: 2,
-    title: "Foundations",
+    title: "Hands-on Training: Foundations — Understanding Infracodebase",
     description: "Learn how to set up your environment, interact with the agent, and build the habits that separate casual users from real engineers.",
+    level: "Beginner",
+    curriculumTrackId: "foundations",
     color: "hsl(145, 60%, 45%)",
     accentColor: "hsl(145, 60%, 92%)",
     moduleCount: 2,
@@ -476,8 +480,10 @@ Observe:
   {
     id: "track-3-hands-on",
     trackNumber: 3,
-    title: "Real Infrastructure",
+    title: "Hands-on Training: Real Infrastructure Engineering",
     description: "Move from generating isolated resources to building connected, working infrastructure environments through structured iteration.",
+    level: "Intermediate",
+    curriculumTrackId: "real-infrastructure",
     color: "hsl(185, 70%, 48%)",
     accentColor: "hsl(185, 70%, 92%)",
     moduleCount: 2,
@@ -866,8 +872,10 @@ Observe the impact.`,
   {
     id: "track-4-hands-on",
     trackNumber: 4,
-    title: "Governance",
+    title: "Hands-on Training: Architecture Diagrams & Living Documentation",
     description: "Apply rulesets, workflows, and subagents to control how infrastructure is generated, reviewed, and evolved across teams.",
+    level: "Intermediate",
+    curriculumTrackId: "architecture-diagrams",
     color: "hsl(45, 85%, 55%)",
     accentColor: "hsl(45, 85%, 92%)",
     moduleCount: 2,
@@ -1358,8 +1366,10 @@ Observe:
   {
     id: "track-5-hands-on",
     trackNumber: 5,
-    title: "Scalable Architecture",
+    title: "Hands-on Training: Enterprise Governance & Platform Engineering",
     description: "Design infrastructure that supports multiple environments, handles growth, and remains stable as systems evolve over time.",
+    level: "Advanced",
+    curriculumTrackId: "enterprise-governance",
     color: "hsl(260, 70%, 58%)",
     accentColor: "hsl(260, 70%, 92%)",
     moduleCount: 2,
@@ -1848,8 +1858,10 @@ Observe:
   {
     id: "track-6-hands-on",
     trackNumber: 6,
-    title: "Advanced Architecture",
+    title: "Hands-on Training: Advanced Infrastructure Architecture",
     description: "Design multi-region resilient systems and enterprise infrastructure platforms that handle failure, scale, and organizational complexity.",
+    level: "Advanced",
+    curriculumTrackId: "advanced-architecture",
     color: "hsl(330, 65%, 55%)",
     accentColor: "hsl(330, 65%, 92%)",
     moduleCount: 2,

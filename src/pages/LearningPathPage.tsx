@@ -1,8 +1,9 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getLearningPathById, learningPaths } from "@/data/courseData";
+import { handsOnTracks } from "@/data/handsOnData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
@@ -107,11 +108,16 @@ function ProgressSidebar({
   totalLessons,
   nextLessonTitle,
   nextTrackId,
+  currentTrackId,
 }: {
   totalLessons: number;
   nextLessonTitle: string;
   nextTrackId: string | null;
+  currentTrackId: string;
 }) {
+  const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
+  const nextTrack = nextTrackId ? learningPaths.find(p => p.id === nextTrackId) : null;
+
   return (
     <div className="space-y-5">
       {/* Course Progress */}
@@ -124,25 +130,32 @@ function ProgressSidebar({
       {/* Assessment */}
       <div className="glass-panel rounded-xl p-5">
         <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Assessment</h4>
-        <p className="text-xs text-muted-foreground">Test your knowledge</p>
+        <p className="text-xs text-muted-foreground mb-3">Test your understanding by applying what you learned.</p>
+        {matchingHandsOn ? (
+          <Link to={`/hands-on/${matchingHandsOn.id}`}>
+            <Button size="sm" className="w-full gap-1.5 text-xs">
+              <Hammer className="h-3 w-3" /> Do the hands-on training
+            </Button>
+          </Link>
+        ) : (
+          <Button size="sm" className="w-full gap-1.5 text-xs" disabled>
+            No hands-on training available
+          </Button>
+        )}
       </div>
 
       {/* Up Next */}
-      <div className="glass-panel rounded-xl p-5">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Up Next</h4>
-        <p className="text-sm font-medium">{nextLessonTitle}</p>
-        {nextTrackId ? (
-          <Link to={`/path/${nextTrackId}`}>
+      {nextTrack && (
+        <div className="glass-panel rounded-xl p-5">
+          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Up Next</h4>
+          <p className="text-sm font-medium">{nextTrack.title}</p>
+          <Link to={`/path/${nextTrack.id}`}>
             <Button size="sm" className="mt-3 w-full gap-1.5 text-xs">
               Continue my training <ArrowRight className="h-3 w-3" />
             </Button>
           </Link>
-        ) : (
-          <Button size="sm" className="mt-3 w-full gap-1.5 text-xs">
-            Complete & continue <ArrowRight className="h-3 w-3" />
-          </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -261,6 +274,7 @@ const LearningPathPage = () => {
               totalLessons={totalLessons}
               nextLessonTitle={firstLesson?.title || "Start course"}
               nextTrackId={nextTrackId}
+              currentTrackId={path.id}
             />
           </div>
         </div>
