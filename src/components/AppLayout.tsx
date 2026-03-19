@@ -24,6 +24,7 @@ const navItems = [
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/videos", label: "Video Library", icon: Play },
+  { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 
