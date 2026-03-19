@@ -843,7 +843,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "generating-reading-diagrams",
         title: "Generating Diagrams",
-        description: "You will learn how to generate architecture diagrams from infrastructure definitions.",
+        description: "Manual diagrams quickly drift away from reality.\nGenerate diagrams directly from infrastructure definitions so they stay accurate.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
