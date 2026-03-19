@@ -887,16 +887,17 @@ export const learningPaths: LearningPath[] = [
     title: "Enterprise Governance & Platform Engineering",
     shortTitle: "Governance",
     description: "Learn how organizations scale infrastructure work through rulesets, workflows, subagents, workspace history, and platform engineering practices.",
+    trackIntro: "In Track 4, you understood how infrastructure is documented and how architecture decisions are captured.\nNow organize how infrastructure is built, controlled, and scaled across teams.",
     icon: "Shield",
     order: 5,
     color: "primary",
     courses: [
       {
-        id: "governance-platform",
-        title: "Enterprise Governance and Platform Engineering",
-        description: "Understand how organizations scale infrastructure work with consistency, traceability, and control through rulesets, workflows, subagents, and workspace history.",
+        id: "why-governance-section",
+        title: "Why Governance Matters",
+        description: "As more teams build infrastructure, inconsistencies and risks start to appear.\nBring structure to how infrastructure is defined, reviewed, and controlled.",
         difficulty: "advanced",
-        estimatedTime: "5 hours",
+        estimatedTime: "30 min",
         lessons: [
           {
             id: "why-governance",
@@ -914,7 +915,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common mistake here is treating governance as only \"approval.\" That is too narrow. In Infracodebase, governance also includes the rules the agent must follow, the workflow it should use, the subagents available for specialized tasks, and the commit-based history that makes work traceable. If you reduce governance to review alone, you miss most of the product model.",
             modificationExercise: "Revise your governance note so it explicitly separates:\n\n- standards enforced by rulesets\n- process encoded in workflows\n- specialized work delegated to subagents",
             knowledgeCheck: { question: "What is the primary goal of governance in Infracodebase?", options: ["Slow down infrastructure development", "Ensure infrastructure work happens consistently across teams", "Replace engineers", "Remove the need for workspace history"], correctAnswer: 1 }
-          },
+          }
+        ]
+      },
+      {
+        id: "defining-standards-section",
+        title: "Defining Standards (Rulesets)",
+        description: "Different teams define infrastructure in different ways.\nUse rulesets to enforce consistency and guide how infrastructure is generated.",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "enterprise-rulesets",
             title: "Designing Enterprise Rulesets",
@@ -931,7 +940,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common mistake is writing rulesets that are too vague. The docs explicitly recommend specificity. \"Use t3.medium as the default EC2 instance type\" is better than \"Use appropriate instance sizes.\" They also recommend one ruleset per concern, plain language instead of code, and using required sparingly for true organization-wide standards. If your ruleset is too broad or mixes unrelated concerns, it becomes harder to manage and harder for teams to adopt.",
             modificationExercise: "Split a broad ruleset into two smaller ones. For example:\n\n- Storage Security Standards\n- Resource Naming Standards\n\nThen decide which one should be required and which one should remain optional.",
             knowledgeCheck: { question: "What does \"required\" mean for an enterprise ruleset?", options: ["The ruleset is visible but inactive", "Every workspace must use it and cannot disable it", "Only enterprise admins can view it", "The ruleset overrides workspace history"], correctAnswer: 1 }
-          },
+          }
+        ]
+      },
+      {
+        id: "structuring-work-section",
+        title: "Structuring Work (Workflows)",
+        description: "Without structure, infrastructure changes become unpredictable.\nControl how infrastructure is created, reviewed, and deployed.",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "structuring-workflows",
             title: "Structuring Delivery With Workflows",
@@ -948,7 +965,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common workflow mistake is making steps too technical. When that happens, the workflow becomes a one-off script instead of an organizational process. Another mistake is omitting validation or feedback loops. The docs example explicitly includes routing back to writing code if validation fails. That loop is important because it turns the workflow into an actual delivery process rather than a straight-line checklist.",
             modificationExercise: "Improve your workflow by adding one explicit feedback step. For example: If validation fails, revise the implementation and validate again.",
             knowledgeCheck: { question: "What should a workflow describe?", options: ["Specific resource blocks and exact ports", "The business process the agent should follow", "Individual Terraform commands", "Cloud provider API calls"], correctAnswer: 1 }
-          },
+          }
+        ]
+      },
+      {
+        id: "delegating-work-section",
+        title: "Delegating Work (Subagents)",
+        description: "Infrastructure work involves different types of tasks and expertise.\nDistribute responsibilities across specialized agents.",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "delegating-subagents",
             title: "Delegating Specialized Work With Subagents",
@@ -965,7 +990,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common mistake is making a subagent too broad. If its prompt is vague, its responsibilities overlap with the main agent, or it has tool access that is wider than necessary, you lose the main advantages of delegation. Another mistake is forgetting version behavior. The docs are clear that custom subagents create new versions when prompt, tools, or model change, and workspaces pin to a version until they upgrade. That means changes to a subagent do not silently rewrite behavior in every workspace at once.",
             modificationExercise: "Refine your subagent so it uses fewer tools. Then decide whether that tighter scope makes it safer to mark as required or better to keep optional.",
             knowledgeCheck: { question: "What is the role of subagents in Infracodebase?", options: ["Replace engineers", "Handle specialized tasks in their own constrained context", "Store workspace history", "Override enterprise rulesets"], correctAnswer: 1 }
-          },
+          }
+        ]
+      },
+      {
+        id: "tracking-change-section",
+        title: "Tracking Change (Workspace History)",
+        description: "Infrastructure evolves continuously over time.\nKeep track of changes and understand how the system evolves.",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "workspace-history",
             title: "Understanding Workspace History",
@@ -982,7 +1015,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common misunderstanding is thinking of history as only a passive log. It is more than that. Because commits include diffs and reverts create new commits, history is also part of how engineers investigate changes and safely recover from mistakes. Another common mistake is assuming that a revert erases the past. The docs are explicit that it does not; history remains complete.",
             modificationExercise: "Identify one commit that represents a known-good state. Describe why it should be bookmarked and under what future scenario you would revert to it.",
             knowledgeCheck: { question: "What happens when you revert to a previous commit in workspace history?", options: ["The selected commit is deleted", "All later history is removed", "A new commit is created that restores the earlier state", "The workspace disconnects from GitHub"], correctAnswer: 2 }
-          },
+          }
+        ]
+      },
+      {
+        id: "platform-engineering-section",
+        title: "Platform Engineering",
+        description: "As more teams rely on infrastructure, complexity increases.\nCreate internal platforms that allow teams to build safely and consistently.",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "platform-engineering",
             title: "The Role of Platform Engineering",
@@ -1004,7 +1045,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common mistake is thinking platform engineering is only about tooling. It is not. It is about defining:\n\n- standards (rulesets)\n- process (workflows)\n- execution boundaries (subagents)\n- traceability (history)\n\nIf these are unclear or mixed together, the platform becomes harder to use and less effective.",
             modificationExercise: "Improve your platform engineering use case. Add one additional primitive you did not include in your first version. Then explain how it strengthens the overall platform model.",
             knowledgeCheck: { question: "What is the goal of platform engineering?", options: ["Replace developers", "Enable teams to build infrastructure safely and consistently", "Eliminate infrastructure code"], correctAnswer: 1 }
-          },
+          }
+        ]
+      },
+      {
+        id: "operating-model-section",
+        title: "Operating Model",
+        description: "Governance is not a single feature but a system.\nCombine standards, workflows, ownership, and control into a coherent model.",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "operating-model",
             title: "Putting the Enterprise Operating Model Together",
@@ -1022,7 +1071,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "A common failure here is mixing the primitives together. For example, teams may try to put standards into workflows instead of rulesets. Or they may try to use a subagent to compensate for a missing workflow. Or they may treat history as a backup tool rather than a working timeline. The clearer the boundaries are, the more scalable the operating model becomes. The docs themselves make these boundaries explicit by describing each feature with a separate role: rulesets for standards, workflows for process, subagents for delegated specialization, and history for commit-based evolution.",
             modificationExercise: "Take your operating model and improve it. Decide which rule should be required, which workflow step should include explicit validation, which subagent should remain optional, and which commit states should be bookmarked as milestones.",
             knowledgeCheck: { question: "What enables infrastructure work to scale consistently in Infracodebase?", options: ["Manual review alone", "Rulesets, workflows, subagents, and workspace history working together", "User preferences only", "GitHub integration by itself"], correctAnswer: 1 }
-          },
+          }
+        ]
+      },
+      {
+        id: "capstone-1-section",
+        title: "Capstone Project 1 — Designing a Platform Model",
+        description: "",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "capstone-1",
             title: "Capstone Project 1 — Designing an Enterprise Platform Model",
@@ -1042,7 +1099,15 @@ export const learningPaths: LearningPath[] = [
             failureAndDebugging: "Designing platform models often introduces subtle problems. For example:\n\n- Rulesets may be too strict and block development.\n- Workflows may be unclear or incomplete.\n- Subagents may overlap in responsibility.\n- History may not capture meaningful changes.\n\nWhen this happens:\n\n- Start by identifying which component is causing friction.\n- Then adjust that component while preserving the rest of the system.\n- Avoid redesigning everything at once.",
             modificationExercise: "Improve your platform model. Introduce one additional constraint: For example: All infrastructure must include environment-specific configuration. Update: rulesets, workflow, or subagent behavior. Observe how the system evolves.",
             knowledgeCheck: { question: "Which combination of components defines a complete platform model?", options: ["Rulesets only", "Workflows only", "Rulesets, workflows, subagents, and history", "Infrastructure code only"], correctAnswer: 2 }
-          },
+          }
+        ]
+      },
+      {
+        id: "capstone-2-section",
+        title: "Capstone Project 2 — Debugging and Improving a Platform Model",
+        description: "",
+        difficulty: "advanced",
+        lessons: [
           {
             id: "capstone-2",
             title: "Capstone Project 2 — Debugging and Improving a Platform Model",
@@ -1073,21 +1138,54 @@ export const learningPaths: LearningPath[] = [
     title: "Advanced Infrastructure Architecture",
     shortTitle: "Advanced",
     description: "Move from building infrastructure to thinking like an infrastructure architect, covering scalability, failure domains, resilient architectures, security architecture, multi-region infrastructure, and system evolution.",
+    trackIntro: "In Track 5, you structured how infrastructure is built and governed across teams.\nNow design systems that handle scale, failure, and long-term evolution.",
     icon: "Cpu",
     order: 6,
     color: "primary",
     courses: [
       {
-        id: "advanced-architecture-course",
-        title: "Advanced Infrastructure Architecture",
-        description: "Design infrastructure systems that evolve over time, handling failures, scaling, and multi-region deployments.",
+        id: "thinking-architect-section",
+        title: "Thinking Like an Architect",
+        description: "Building infrastructure is different from designing systems.\nShift from defining resources to reasoning about system behavior.",
         difficulty: "advanced",
-        estimatedTime: "4 hours",
+        estimatedTime: "30 min",
         lessons: [
-          { id: "thinking-like-architect", title: "Thinking Like an Infrastructure Architect", whyThisMatters: "Creating infrastructure resources is only part of the job. The more important skill is designing systems that remain stable as they grow. Poor architecture decisions can create hidden security vulnerabilities, operational complexity, scaling limitations, and fragile systems.", coreConcepts: "Infrastructure architects evaluate: Failure Domains (which components could cause widespread outages), Scalability (supporting increasing traffic without major redesigns), Security Boundaries (which services are allowed to communicate), and Operational Simplicity (reducing complexity where possible). Instead of asking 'How do I create this resource?' architects ask: How will it scale? What happens if it fails? Where are the security boundaries?", exercise: { title: "Architecture Analysis", description: "Write a short architecture description explaining: how the application environment should scale, which components must remain highly available, and which components represent potential failure domains." }, artifact: { title: "Architecture Assessment", description: "A short architecture description stored in workspace documentation." }, validationChecklist: ["Identified scaling components", "Identified redundancy requirements", "Identified failure domains"], knowledgeCheck: { question: "What distinguishes infrastructure architecture from infrastructure implementation?", options: ["Creating more resources", "Designing systems that remain reliable, scalable, and secure", "Writing infrastructure code faster"], correctAnswer: 1 } },
-          { id: "multi-region", title: "Designing Multi-Region Architectures", whyThisMatters: "The infrastructure currently operates inside a single cloud region. While resilient within the region, it cannot tolerate a regional outage. Critical systems often evolve toward multi-region architectures.", coreConcepts: "Multi-region architecture introduces geographic failure domains. Key concepts: Regional Isolation (regions operate independently), Global Traffic Routing (DNS-based, global load balancers, latency-based routing), Data Replication (active-passive where one region serves while another stands by, or active-active where multiple regions serve simultaneously). Trade-offs between latency, consistency, and operational complexity must be balanced.", exercise: { title: "Extend to Multi-Region", description: "Ask the agent to extend the infrastructure so the application environment runs across two regions and can fail over if one region becomes unavailable." }, artifact: { title: "Multi-Region Architecture", description: "An updated architecture diagram showing infrastructure deployed across two regions." }, validationChecklist: ["Application servers exist in both regions", "Global routing directs traffic between regions", "Storage systems replicate data across regions"], knowledgeCheck: { question: "Why do organizations deploy infrastructure across multiple regions?", options: ["To reduce infrastructure cost", "To protect systems from regional failures", "To eliminate networking complexity"], correctAnswer: 1 } },
-          { id: "resilient-infrastructure", title: "Designing Resilient Infrastructure", whyThisMatters: "Infrastructure systems inevitably experience failures. Resilience is not something that can be added once and forgotten. As systems evolve, new dependencies can introduce hidden failure risks.", coreConcepts: "Resilient architectures are designed around failure domains. Key concepts: Redundancy (multiple instances of critical components), Load Balancing (distributing traffic and automatically stopping unhealthy instances), Fault Isolation (ensuring failures remain contained within specific parts of the system). Instead of preventing failures, resilient architectures limit their impact.", exercise: { title: "Improve Resilience", description: "Ask the agent to analyze the infrastructure and identify potential single points of failure. Then update the architecture to improve resilience." }, artifact: { title: "Resilient Architecture", description: "An updated architecture diagram representing a resilient infrastructure system." }, validationChecklist: ["Critical services include redundant instances", "Application servers run across multiple zones", "Load balancing distributes traffic"], knowledgeCheck: { question: "What is the primary goal of resilient infrastructure design?", options: ["Prevent all infrastructure failures", "Ensure the system continues operating when failures occur", "Reduce the number of infrastructure components"], correctAnswer: 1 } },
-          { id: "zero-trust", title: "Designing Zero-Trust Infrastructure", whyThisMatters: "Traditional infrastructure security relied on network-based trust. But modern environments are complex — cloud environments, container platforms, external APIs, distributed services. If an attacker gains internal network access, they can move laterally between systems.", coreConcepts: "Zero-trust architecture: Never trust. Always verify. Every service must prove its identity before interacting with another service. Key concepts: Identity-Based Authentication (service identity tokens, mutual TLS), Authorization Policies (defining allowed interactions between services), and Network Segmentation as Defense in Depth. This model significantly reduces the impact of security breaches.", exercise: { title: "Implement Zero-Trust", description: "Ask the agent to modify the infrastructure so that all service communication requires identity-based authentication and authorization." }, artifact: { title: "Zero-Trust Architecture", description: "An updated architecture diagram representing identity-secured service communication." }, validationChecklist: ["Services authenticate before interacting", "Authorization policies define allowed interactions", "Internal communication doesn't rely only on network location"], knowledgeCheck: { question: "What is the core principle of zero-trust infrastructure?", options: ["Trust all internal services", "Always verify identity and authorization", "Eliminate authentication"], correctAnswer: 1 } },
+          { id: "thinking-like-architect", title: "Thinking Like an Infrastructure Architect", whyThisMatters: "Creating infrastructure resources is only part of the job. The more important skill is designing systems that remain stable as they grow. Poor architecture decisions can create hidden security vulnerabilities, operational complexity, scaling limitations, and fragile systems.", coreConcepts: "Infrastructure architects evaluate: Failure Domains (which components could cause widespread outages), Scalability (supporting increasing traffic without major redesigns), Security Boundaries (which services are allowed to communicate), and Operational Simplicity (reducing complexity where possible). Instead of asking 'How do I create this resource?' architects ask: How will it scale? What happens if it fails? Where are the security boundaries?", exercise: { title: "Architecture Analysis", description: "Write a short architecture description explaining: how the application environment should scale, which components must remain highly available, and which components represent potential failure domains." }, artifact: { title: "Architecture Assessment", description: "A short architecture description stored in workspace documentation." }, validationChecklist: ["Identified scaling components", "Identified redundancy requirements", "Identified failure domains"], knowledgeCheck: { question: "What distinguishes infrastructure architecture from infrastructure implementation?", options: ["Creating more resources", "Designing systems that remain reliable, scalable, and secure", "Writing infrastructure code faster"], correctAnswer: 1 } }
+        ]
+      },
+      {
+        id: "resilient-section",
+        title: "Resilient Architectures",
+        description: "Failures are inevitable in distributed systems.\nDesign systems that continue operating under failure conditions.",
+        difficulty: "advanced",
+        lessons: [
+          { id: "resilient-infrastructure", title: "Designing Resilient Infrastructure", whyThisMatters: "Infrastructure systems inevitably experience failures. Resilience is not something that can be added once and forgotten. As systems evolve, new dependencies can introduce hidden failure risks.", coreConcepts: "Resilient architectures are designed around failure domains. Key concepts: Redundancy (multiple instances of critical components), Load Balancing (distributing traffic and automatically stopping unhealthy instances), Fault Isolation (ensuring failures remain contained within specific parts of the system). Instead of preventing failures, resilient architectures limit their impact.", exercise: { title: "Improve Resilience", description: "Ask the agent to analyze the infrastructure and identify potential single points of failure. Then update the architecture to improve resilience." }, artifact: { title: "Resilient Architecture", description: "An updated architecture diagram representing a resilient infrastructure system." }, validationChecklist: ["Critical services include redundant instances", "Application servers run across multiple zones", "Load balancing distributes traffic"], knowledgeCheck: { question: "What is the primary goal of resilient infrastructure design?", options: ["Prevent all infrastructure failures", "Ensure the system continues operating when failures occur", "Reduce the number of infrastructure components"], correctAnswer: 1 } }
+        ]
+      },
+      {
+        id: "multi-region-section",
+        title: "Multi-Region Infrastructure",
+        description: "Single-region systems introduce limitations and risk.\nDistribute infrastructure across regions to improve resilience.",
+        difficulty: "advanced",
+        lessons: [
+          { id: "multi-region", title: "Designing Multi-Region Architectures", whyThisMatters: "The infrastructure currently operates inside a single cloud region. While resilient within the region, it cannot tolerate a regional outage. Critical systems often evolve toward multi-region architectures.", coreConcepts: "Multi-region architecture introduces geographic failure domains. Key concepts: Regional Isolation (regions operate independently), Global Traffic Routing (DNS-based, global load balancers, latency-based routing), Data Replication (active-passive where one region serves while another stands by, or active-active where multiple regions serve simultaneously). Trade-offs between latency, consistency, and operational complexity must be balanced.", exercise: { title: "Extend to Multi-Region", description: "Ask the agent to extend the infrastructure so the application environment runs across two regions and can fail over if one region becomes unavailable." }, artifact: { title: "Multi-Region Architecture", description: "An updated architecture diagram showing infrastructure deployed across two regions." }, validationChecklist: ["Application servers exist in both regions", "Global routing directs traffic between regions", "Storage systems replicate data across regions"], knowledgeCheck: { question: "Why do organizations deploy infrastructure across multiple regions?", options: ["To reduce infrastructure cost", "To protect systems from regional failures", "To eliminate networking complexity"], correctAnswer: 1 } }
+        ]
+      },
+      {
+        id: "zero-trust-section",
+        title: "Zero Trust Security",
+        description: "Network boundaries alone are not sufficient.\nUse identity to control access between services.",
+        difficulty: "advanced",
+        lessons: [
+          { id: "zero-trust", title: "Designing Zero-Trust Infrastructure", whyThisMatters: "Traditional infrastructure security relied on network-based trust. But modern environments are complex — cloud environments, container platforms, external APIs, distributed services. If an attacker gains internal network access, they can move laterally between systems.", coreConcepts: "Zero-trust architecture: Never trust. Always verify. Every service must prove its identity before interacting with another service. Key concepts: Identity-Based Authentication (service identity tokens, mutual TLS), Authorization Policies (defining allowed interactions between services), and Network Segmentation as Defense in Depth. This model significantly reduces the impact of security breaches.", exercise: { title: "Implement Zero-Trust", description: "Ask the agent to modify the infrastructure so that all service communication requires identity-based authentication and authorization." }, artifact: { title: "Zero-Trust Architecture", description: "An updated architecture diagram representing identity-secured service communication." }, validationChecklist: ["Services authenticate before interacting", "Authorization policies define allowed interactions", "Internal communication doesn't rely only on network location"], knowledgeCheck: { question: "What is the core principle of zero-trust infrastructure?", options: ["Trust all internal services", "Always verify identity and authorization", "Eliminate authentication"], correctAnswer: 1 } }
+        ]
+      },
+      {
+        id: "infrastructure-platforms-section",
+        title: "Infrastructure Platforms",
+        description: "Multiple teams depend on shared systems.\nDesign platforms that enable teams to build independently.",
+        difficulty: "advanced",
+        lessons: [
           { id: "infrastructure-platforms", title: "Designing Infrastructure Platforms", whyThisMatters: "Organizations rarely operate only one system. If every team builds independently, infrastructure patterns diverge, security practices become inconsistent, and operational complexity increases.", coreConcepts: "Platform engineering focuses on building systems that help engineers build systems. Platforms provide: Shared Infrastructure Foundations (networking baselines, storage standards, identity systems), Self-Service Infrastructure (templates and automation for self-service environments), and Governance Integration (governance rules directly in infrastructure workflows). Application teams build on top of the platform instead of reinventing components.", exercise: { title: "Design a Platform", description: "Ask the agent to design a platform architecture that allows multiple engineering teams to deploy infrastructure while following governance rules." }, artifact: { title: "Platform Architecture", description: "An architecture diagram representing a shared infrastructure platform." }, validationChecklist: ["Shared infrastructure supports multiple teams", "Governance rules apply across environments", "Platform simplifies infrastructure deployment"], knowledgeCheck: { question: "What is the primary goal of platform engineering?", options: ["Replace engineering teams", "Provide shared infrastructure capabilities for multiple teams", "Eliminate infrastructure governance"], correctAnswer: 1 } }
         ]
       }
