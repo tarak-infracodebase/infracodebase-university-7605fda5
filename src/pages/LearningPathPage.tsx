@@ -65,7 +65,7 @@ function IntroVideo({ pathId }: { pathId: string }) {
 function TrackIntroBlock({ text }: { text: string }) {
   return (
     <div className="glass-panel rounded-xl p-6">
-      <h3 className="text-[10px] uppercase tracking-wider text-primary font-semibold mb-3">Why This Matters</h3>
+      <h3 className="text-[10px] uppercase tracking-wider text-primary font-semibold mb-3">Where You Are</h3>
       <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
         {text}
       </div>

@@ -179,7 +179,7 @@ export const learningPaths: LearningPath[] = [
     title: "Foundations — Understanding Infracodebase",
     shortTitle: "Foundations",
     description: "Learn the core model of Infracodebase including enterprises, workspaces, rulesets, workflows, agents, subagents, documentation, architecture diagrams, GitHub integration, and infrastructure history.",
-    trackIntro: "This course will help you understand how Infracodebase works and how to use it effectively.\nYou will learn what Infracodebase is, how workspaces are organized, and how you collaborate with the agent to design infrastructure.",
+    trackIntro: "You are starting to understand how infrastructure is designed and organized in Infracodebase.\nNow focus on how workspaces, rulesets, workflows, and the agent work together to generate and manage infrastructure.",
     icon: "Layers",
     order: 2,
     color: "primary",
@@ -187,7 +187,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "introduction-to-infracodebase",
         title: "Introduction to Infracodebase",
-        description: "This course will help you understand how Infracodebase works and how to use it effectively. You will learn what Infracodebase is, how workspaces are organized, and how you collaborate with the agent to design infrastructure.",
+        description: "Before building infrastructure, you need to understand how Infracodebase works.\nGet a clear view of how workspaces are organized and how the agent collaborates with you.",
         difficulty: "beginner",
         estimatedTime: "30 min",
         lessons: [
@@ -303,7 +303,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "working-with-the-agent",
         title: "Working With the Agent",
-        description: "The agent is a collaborator.\nYou will learn how to guide the agent to design and generate infrastructure, and how to review what it produces.",
+        description: "Designing infrastructure starts with how you describe what you want to build.\nGuide the agent effectively and understand how it generates infrastructure.",
         difficulty: "beginner",
         estimatedTime: "25 min",
         lessons: [
@@ -414,7 +414,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "organizing-infrastructure",
         title: "Organizing Infrastructure",
-        description: "Infrastructure design, security, governance, and architecture decisions often involve multiple roles.\nYou will learn how infrastructure work is organized and how teams collaborate effectively.",
+        description: "Infrastructure work involves multiple people working across different parts of a system.\nStructure that work using workspaces, rulesets, and workflows.",
         difficulty: "beginner",
         estimatedTime: "25 min",
         lessons: [
@@ -554,7 +554,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "infrastructure-artifacts",
         title: "Infrastructure Artifacts",
-        description: "This course is not only about generating infrastructure code.\nIt is about understanding the full workflow around infrastructure: architecture, documentation, governance, review, and evolution over time.",
+        description: "Infrastructure is more than code sitting in a repository.\nConnect code, diagrams, documentation, and history into a single system.",
         difficulty: "beginner",
         estimatedTime: "20 min",
         lessons: [
@@ -664,7 +664,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "integrations",
         title: "Integrations",
-        description: "In most engineering teams, infrastructure code lives inside Git repositories.",
+        description: "Infrastructure does not exist in isolation from other systems.\nConnect your workspace to external tools such as Git repositories.",
         difficulty: "beginner",
         estimatedTime: "15 min",
         lessons: [
@@ -722,7 +722,7 @@ export const learningPaths: LearningPath[] = [
     title: "Real Infrastructure Engineering",
     shortTitle: "Infrastructure",
     description: "Build a realistic infrastructure environment step by step, covering architecture intent, VPC networking, subnets, routing, NAT, load balancers, application servers, databases, identity, storage, environments, resilience, and debugging.",
-    trackIntro: "In Track 2, you designed and deployed an application environment that included:\n\na VPC network\npublic and private subnets\nrouting and NAT connectivity\nidentity permissions\napplication servers\nconfiguration automation\nstorage resources\nmultiple environments\nresilience across availability zones",
+    trackIntro: "In Track 2, you understood how infrastructure is organized and how to collaborate with the agent.\nNow move into building a complete infrastructure system step by step and seeing how each component behaves.",
     icon: "Server",
     order: 3,
     color: "primary",
@@ -730,7 +730,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "understanding-the-system",
         title: "Understanding the System",
-        description: "Before writing infrastructure code, engineers must understand the system they are designing.",
+        description: "Before writing infrastructure, you need a clear understanding of what you are building.\nThink through architecture, dependencies, and how components interact.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
@@ -740,7 +740,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "building-network-foundation",
         title: "Building the Network Foundation",
-        description: "Every cloud architecture begins with networking.\nYou will learn how to design networking using subnets, routing, and NAT connectivity.",
+        description: "Every infrastructure starts with networking.\nDefine how traffic flows through subnets, routing layers, and NAT.",
         difficulty: "intermediate",
         estimatedTime: "40 min",
         lessons: [
@@ -751,7 +751,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "controlling-access-identity",
         title: "Access and Identity",
-        description: "Cloud platforms rely heavily on identity and access control.\nYou will learn how resources interact through identity and permissions.",
+        description: "Resources should not communicate without control.\nDefine identity and permissions to secure interactions.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -761,7 +761,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "compute-application-layer",
         title: "Compute and Application Layer",
-        description: "Provisioning infrastructure is only half the work. Servers also need to be configured with software and application logic.",
+        description: "Provisioning infrastructure is only part of the work.\nRun applications, configure servers, and make the system usable.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -771,7 +771,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "debugging-iteration",
         title: "Debugging and Iteration",
-        description: "Infrastructure rarely works perfectly the first time.\nYou will learn how to debug and iterate on infrastructure generation.",
+        description: "Infrastructure rarely works perfectly the first time.\nIdentify issues, adjust configurations, and refine the system.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -781,7 +781,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "multiple-environments",
         title: "Multiple Environments",
-        description: "If every change is applied directly to production, even a small mistake could cause an outage.",
+        description: "Applying changes directly to production creates risk.\nSeparate development, testing, and production environments.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -791,7 +791,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "enforcing-standards",
         title: "Enforcing Standards",
-        description: "As systems grow, different engineers modify infrastructure. Over time, inconsistency appears.",
+        description: "As systems grow, inconsistencies start to appear.\nApply security and operational standards across infrastructure.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -801,7 +801,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "designing-for-failure",
         title: "Designing for Failure",
-        description: "Infrastructure systems inevitably experience failures.\nYou will learn how to design infrastructure that continues operating when failures occur.",
+        description: "Failures are inevitable in real systems.\nDesign infrastructure that continues operating under failure conditions.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -811,7 +811,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "operating-evolving",
         title: "Operating and Evolving Infrastructure",
-        description: "Real infrastructure engineering rarely ends at deployment.\nInfrastructure must evolve as systems grow.",
+        description: "Infrastructure does not stop at deployment.\nAdapt and evolve it as systems grow and change.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
@@ -825,7 +825,7 @@ export const learningPaths: LearningPath[] = [
     title: "Architecture Diagrams & Living Documentation",
     shortTitle: "Diagrams & Docs",
     description: "Learn how infrastructure diagrams and documentation stay synchronized with infrastructure code.",
-    trackIntro: "In Track 3, you learned how to understand and document that infrastructure.\nYou generated architecture diagrams.\nYou improved diagram clarity.\nYou documented architecture decisions.",
+    trackIntro: "In Track 3, you built a complete infrastructure system across networking, compute, identity, and environments.\nNow focus on understanding that system through diagrams, documentation, and architecture decisions.",
     icon: "FileText",
     order: 4,
     color: "primary",
@@ -833,7 +833,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "understanding-visually",
         title: "Understanding Infrastructure Visually",
-        description: "You will learn how infrastructure can be understood through diagrams and system visualization.",
+        description: "As systems grow, understanding architecture becomes harder.\nUse visualization to see how services interact and how traffic flows.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
@@ -843,7 +843,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "generating-reading-diagrams",
         title: "Generating Diagrams",
-        description: "You will learn how to generate architecture diagrams from infrastructure definitions.",
+        description: "Manual diagrams quickly drift away from reality.\nGenerate diagrams directly from infrastructure definitions so they stay accurate.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
@@ -853,7 +853,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "improving-clarity-communication",
         title: "Improving Clarity",
-        description: "You will learn how to improve diagram clarity to communicate system structure.",
+        description: "Even correct diagrams can be difficult to read.\nMake system structure and communication paths immediately understandable.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
@@ -863,7 +863,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "documenting-architecture-decisions",
         title: "Architecture Decisions",
-        description: "You will learn how to document architecture decisions and explain why systems are designed in a certain way.",
+        description: "Infrastructure shows how the system works, but not why it was designed that way.\nCapture the constraints and decisions behind the architecture.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
@@ -873,7 +873,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "living-documentation",
         title: "Living Documentation",
-        description: "Diagrams and documentation remain synchronized with infrastructure.\nThis creates living architecture documentation where systems evolve over time.",
+        description: "Infrastructure is constantly evolving.\nKeep diagrams and documentation synchronized with the system over time.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
