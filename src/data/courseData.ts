@@ -730,7 +730,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "understanding-the-system",
         title: "Understanding the System",
-        description: "Before writing infrastructure code, engineers must understand the system they are designing.",
+        description: "Before writing infrastructure, you need a clear understanding of what you are building.\nThink through architecture, dependencies, and how components interact.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
