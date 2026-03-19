@@ -854,8 +854,8 @@ export const learningPaths: LearningPath[] = [
       },
       {
         id: "improving-clarity-communication",
-        title: "Improving Clarity and Communication",
-        description: "You improved diagram clarity to communicate system structure.",
+        title: "Improving Clarity",
+        description: "You will learn how to improve diagram clarity to communicate system structure.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
