@@ -751,7 +751,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "controlling-access-identity",
         title: "Access and Identity",
-        description: "Cloud platforms rely heavily on identity and access control.\nYou will learn how resources interact through identity and permissions.",
+        description: "Resources should not communicate without control.\nDefine identity and permissions to secure interactions.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
