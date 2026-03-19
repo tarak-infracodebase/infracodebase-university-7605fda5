@@ -179,6 +179,7 @@ export const learningPaths: LearningPath[] = [
     title: "Foundations — Understanding Infracodebase",
     shortTitle: "Foundations",
     description: "Learn the core model of Infracodebase including enterprises, workspaces, rulesets, workflows, agents, subagents, documentation, architecture diagrams, GitHub integration, and infrastructure history.",
+    trackIntro: "This course will help you understand how Infracodebase works and how to use it effectively.\nYou will learn what Infracodebase is, how workspaces are organized, and how you collaborate with the agent to design infrastructure.",
     icon: "Layers",
     order: 2,
     color: "primary",
