@@ -11,7 +11,7 @@ import LearningPathPage from "./pages/LearningPathPage";
 import LessonPage from "./pages/LessonPage";
 import Dashboard from "./pages/Dashboard";
 import Curriculum from "./pages/Curriculum";
-import Progress from "./pages/Progress";
+// Progress merged into Dashboard
 import Leaderboard from "./pages/Leaderboard";
 import Profile from "./pages/Profile";
 import Events from "./pages/Events";
