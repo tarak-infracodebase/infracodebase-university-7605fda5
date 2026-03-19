@@ -12,6 +12,14 @@ const methodSteps = [
   { label: "Iterate", description: "Refine until the system matches your intent" },
 ];
 
+const trackNumberMap: Record<string, number> = {
+  "track-2-hands-on": 2,
+  "track-3-hands-on": 3,
+  "track-4-hands-on": 4,
+  "track-5-hands-on": 5,
+  "track-6-hands-on": 6,
+};
+
 // Ordered tracks: Track 2 (Foundations) first, then 3, 4, 5, 6
 const orderedTracks = [
   handsOnTracks.find(t => t.id === "track-2-hands-on")!,
