@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { getLearningPathById, learningPaths } from "@/data/courseData";
+import { getLearningPathById } from "@/data/courseData";
 import { handsOnTracks } from "@/data/handsOnData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
