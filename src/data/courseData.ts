@@ -825,7 +825,7 @@ export const learningPaths: LearningPath[] = [
     title: "Architecture Diagrams & Living Documentation",
     shortTitle: "Diagrams & Docs",
     description: "Learn how infrastructure diagrams and documentation stay synchronized with infrastructure code.",
-    trackIntro: "In Track 3, you learned how to understand and document that infrastructure.\nYou generated architecture diagrams.\nYou improved diagram clarity.\nYou documented architecture decisions.",
+    trackIntro: "In Track 3, you built a complete infrastructure system across networking, compute, identity, and environments.\nNow focus on understanding that system through diagrams, documentation, and architecture decisions.",
     icon: "FileText",
     order: 4,
     color: "primary",
