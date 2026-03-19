@@ -274,6 +274,7 @@ const LearningPathPage = () => {
               totalLessons={totalLessons}
               nextLessonTitle={firstLesson?.title || "Start course"}
               nextTrackId={nextTrackId}
+              currentTrackId={path.id}
             />
           </div>
         </div>
