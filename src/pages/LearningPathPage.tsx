@@ -138,10 +138,8 @@ const upNextContent: Record<string, { trackNumber: number; title: string; descri
 };
 
 function ProgressSidebar({
-  totalLessons,
   currentTrackId,
 }: {
-  totalLessons: number;
   currentTrackId: string;
 }) {
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
