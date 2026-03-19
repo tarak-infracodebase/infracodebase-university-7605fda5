@@ -21,6 +21,9 @@ import Resources from "./pages/Resources";
 import Appearance from "./pages/Appearance";
 import Manifesto from "./pages/Manifesto";
 import NotFound from "./pages/NotFound";
+import HandsOnExercises from "./pages/HandsOnExercises";
+import HandsOnTrack from "./pages/HandsOnTrack";
+import HandsOnModule from "./pages/HandsOnModule";
 
 const queryClient = new QueryClient();
 
