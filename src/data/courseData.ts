@@ -742,7 +742,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "building-network-foundation",
         title: "Building the Network Foundation",
-        description: "Every cloud architecture begins with networking. Without a well-designed network, infrastructure becomes difficult to operate and scale.",
+        description: "Every cloud architecture begins with networking.\nYou will learn how to design networking using subnets, routing, and NAT connectivity.",
         difficulty: "intermediate",
         estimatedTime: "40 min",
         lessons: [
