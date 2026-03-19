@@ -187,7 +187,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "introduction-to-infracodebase",
         title: "Introduction to Infracodebase",
-        description: "This course will help you understand how Infracodebase works and how to use it effectively. You will learn what Infracodebase is, how workspaces are organized, and how you collaborate with the agent to design infrastructure.",
+        description: "Before building infrastructure, you need to understand how Infracodebase works.\nGet a clear view of how workspaces are organized and how the agent collaborates with you.",
         difficulty: "beginner",
         estimatedTime: "30 min",
         lessons: [
