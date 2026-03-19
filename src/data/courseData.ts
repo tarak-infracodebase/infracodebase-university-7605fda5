@@ -844,8 +844,8 @@ export const learningPaths: LearningPath[] = [
       },
       {
         id: "generating-reading-diagrams",
-        title: "Generating and Reading Diagrams",
-        description: "You learned how to generate architecture diagrams directly from infrastructure definitions. This helps communicate system structure clearly.",
+        title: "Generating Diagrams",
+        description: "You will learn how to generate architecture diagrams from infrastructure definitions.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
