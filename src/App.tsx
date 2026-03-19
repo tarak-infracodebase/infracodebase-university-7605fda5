@@ -50,6 +50,9 @@ const App = () => (
             <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
             <Route path="/path/:pathId" element={<LearningPathPage />} />
             <Route path="/path/:pathId/lesson/:lessonId" element={<LessonPage />} />
+            <Route path="/hands-on" element={<HandsOnExercises />} />
+            <Route path="/hands-on/:trackId" element={<HandsOnTrack />} />
+            <Route path="/hands-on/:trackId/:moduleId" element={<HandsOnModule />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
