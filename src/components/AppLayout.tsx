@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, TrendingUp, Trophy, Calendar, 
   User, MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Palette
+  X, FolderOpen, Palette, Hammer
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -24,6 +24,7 @@ const navItems = [
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/videos", label: "Video Library", icon: Play },
+  { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 
