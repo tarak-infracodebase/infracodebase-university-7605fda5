@@ -20,6 +20,7 @@ const navItems = [
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/resources", label: "Resources", icon: FolderOpen },
+  { path: "/profile", label: "Profile", icon: User },
 ];
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
