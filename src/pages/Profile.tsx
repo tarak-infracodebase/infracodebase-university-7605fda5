@@ -70,7 +70,7 @@ const Profile = () => {
           {/* Bio row */}
           <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> Infrastructure Engineer</span>
-            <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined Feb 2026</span>
+            <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined {joinedDate}</span>
             <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 12 day streak</span>
             <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Silver League</span>
           </div>
