@@ -130,7 +130,7 @@ export function MobileNav() {
               }}
             >
               <UserButton.MenuItems>
-                <UserButton.Link label="Profile" labelIcon={<LayoutDashboard className="h-4 w-4" />} href="/profile" />
+                <UserButton.Action label="Profile" labelIcon={<User className="h-4 w-4" />} onClick={() => navigate("/profile")} />
               </UserButton.MenuItems>
             </UserButton>
           </SignedIn>
