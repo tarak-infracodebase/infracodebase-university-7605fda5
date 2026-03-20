@@ -1,6 +1,7 @@
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { Share2, MapPin, Calendar, Flame, Trophy } from "lucide-react";
+import { useUser } from "@clerk/clerk-react";
 import buildWithHerBg from "@/assets/build-with-her-bg.png";
 
 const projects = [
