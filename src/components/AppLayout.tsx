@@ -127,7 +127,11 @@ export function MobileNav() {
                   avatarBox: "h-8 w-8",
                 },
               }}
-            />
+            >
+              <UserButton.MenuItems>
+                <UserButton.Link label="Profile" labelIcon={<LayoutDashboard className="h-4 w-4" />} href="/profile" />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
           <SignedOut>
             <Link to="/sign-in" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
@@ -187,7 +191,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 avatarBox: "h-10 w-10 border-2 border-border/50 shadow-lg",
               },
             }}
-          />
+          >
+            <UserButton.MenuItems>
+              <UserButton.Link label="Profile" labelIcon={<LayoutDashboard className="h-4 w-4" />} href="/profile" />
+            </UserButton.MenuItems>
+          </UserButton>
         </SignedIn>
         <SignedOut>
           <Link to="/sign-in" className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors">
