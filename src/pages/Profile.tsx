@@ -1,8 +1,12 @@
+import { useParams } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { Share2, MapPin, Calendar, Flame, Trophy } from "lucide-react";
+import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
-import buildWithHerBg from "@/assets/build-with-her-bg.png";
+import { useProfileData } from "@/hooks/useProfileData";
+import { ProfileEditModal } from "@/components/profile/ProfileEditModal";
+import { ShareProfilePopover } from "@/components/profile/ShareProfilePopover";
+import { useState } from "react";
 
 const projects = [
   { name: "Azure APIM Landing Zone", desc: "Production-grade Azure API Management landing zone with Terraform following security best practices.", tags: ["Azure", "Terraform"], color: "hsl(var(--crystal-cyan))" },
@@ -24,25 +28,50 @@ const stats = [
   { label: "Total Edits", value: "342" },
 ];
 
+const defaultBannerGradient = "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(330 65% 25%) 40%, hsl(185 70% 20%) 70%, hsl(228 30% 10%) 100%)";
+
 const Profile = () => {
-  const { user } = useUser();
-  const fullName = user?.fullName || user?.firstName || "Your Name";
+  const { username: urlUsername } = useParams<{ username: string }>();
+  const { user, isLoaded } = useUser();
+  const [editOpen, setEditOpen] = useState(false);
+
+  const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
+  const isOwner = !urlUsername || urlUsername === handle;
+  const viewedHandle = urlUsername || handle;
+
+  const { profileData, saveProfile } = useProfileData(user?.id);
+
+  const fullName = profileData.displayName || user?.fullName || user?.firstName || "Your Name";
   const initials = user?.firstName && user?.lastName
     ? `${user.firstName[0]}${user.lastName[0]}`
     : user?.firstName?.[0] || "YO";
-  const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
-  const avatarUrl = user?.imageUrl;
+  const avatarUrl = profileData.customAvatarUrl || user?.imageUrl;
   const joinedDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })
     : "Feb 2026";
 
+  // If viewing someone else's profile and not the current user, show not found
+  if (isLoaded && urlUsername && !isOwner && !user) {
+    return (
+      <AppLayout>
+        <div className="max-w-5xl mx-auto py-24 text-center">
+          <h1 className="text-2xl font-bold mb-2">Profile not found</h1>
+          <p className="text-sm text-muted-foreground">This user doesn't exist or hasn't set up their profile yet.</p>
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-5xl mx-auto pb-12">
-        {/* Gradient Banner */}
-        <div className="h-48 rounded-b-2xl relative overflow-hidden" style={{
-          background: "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(330 65% 25%) 40%, hsl(185 70% 20%) 70%, hsl(228 30% 10%) 100%)"
-        }}>
+        {/* Banner */}
+        <div className="h-48 rounded-b-2xl relative overflow-hidden">
+          {profileData.bannerUrl ? (
+            <img src={profileData.bannerUrl} alt="" className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full" style={{ background: defaultBannerGradient }} />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
         </div>
 
@@ -58,22 +87,52 @@ const Profile = () => {
             )}
             <div className="flex-1 pb-2">
               <h1 className="text-2xl font-bold">{fullName}</h1>
-              <p className="text-sm text-muted-foreground">@{handle}</p>
+              <p className="text-sm text-muted-foreground">@{viewedHandle}</p>
             </div>
             <div className="flex items-center gap-2 pb-2">
-              <button className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center gap-1.5">
-                <Share2 className="h-3.5 w-3.5" /> Share Profile
-              </button>
+              {isOwner ? (
+                <button
+                  onClick={() => setEditOpen(true)}
+                  className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center gap-1.5 active:scale-[0.97]"
+                >
+                  <Pencil className="h-3.5 w-3.5" /> Edit profile
+                </button>
+              ) : (
+                <ShareProfilePopover username={viewedHandle} />
+              )}
+              {isOwner && <ShareProfilePopover username={viewedHandle} />}
             </div>
           </div>
 
           {/* Bio row */}
           <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> Infrastructure Engineer</span>
+            {profileData.location && (
+              <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {profileData.location}</span>
+            )}
+            {!profileData.location && (
+              <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> Infrastructure Engineer</span>
+            )}
             <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined {joinedDate}</span>
             <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 12 day streak</span>
             <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Silver League</span>
+            {profileData.website && (
+              <a
+                href={profileData.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-primary hover:underline"
+              >
+                <Globe className="h-3.5 w-3.5" />
+                {profileData.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
           </div>
+
+          {/* Bio */}
+          {profileData.bio && (
+            <p className="mt-3 text-sm text-foreground leading-relaxed max-w-xl">{profileData.bio}</p>
+          )}
 
           {/* Follower stats */}
           <div className="mt-3 flex items-center gap-4 text-sm">
@@ -86,26 +145,27 @@ const Profile = () => {
           {/* Main column */}
           <div className="space-y-8">
             {/* Engineer Profile */}
-            <div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Engineer Profile</h2>
-              <div className="space-y-3 max-w-xl">
-                <p className="text-sm text-foreground leading-relaxed">
-                  Infrastructure Engineer focused on building secure and scalable systems.
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Designs and operates production infrastructure, automated deployment pipelines, and high-performance cloud applications.
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Works across cloud infrastructure, platform engineering, and frontend systems when needed.
-                </p>
+            {!profileData.bio && (
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Engineer Profile</h2>
+                <div className="space-y-3 max-w-xl">
+                  <p className="text-sm text-foreground leading-relaxed">
+                    Infrastructure Engineer focused on building secure and scalable systems.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Designs and operates production infrastructure, automated deployment pipelines, and high-performance cloud applications.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Works across cloud infrastructure, platform engineering, and frontend systems when needed.
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Infrastructure Stack */}
             <div>
               <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Infrastructure Stack</h2>
               <div className="space-y-6">
-                {/* Cloud Infrastructure */}
                 <div>
                   <p className="text-[11px] text-muted-foreground mb-1">Primary Cloud: <span className="text-foreground font-medium">AWS</span></p>
                   <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Cloud Infrastructure</h3>
@@ -127,7 +187,6 @@ const Profile = () => {
                     ))}
                   </div>
                 </div>
-                {/* Infrastructure as Code */}
                 <div>
                   <p className="text-[11px] text-muted-foreground mb-1">Primary IaC: <span className="text-foreground font-medium">Terraform</span></p>
                   <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Infrastructure as Code</h3>
@@ -154,22 +213,29 @@ const Profile = () => {
             {/* Projects */}
             <div>
               <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Infrastructure Projects</h2>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {projects.map((p, i) => (
-                  <div key={i} className="glass-panel rounded-xl p-4 hover:border-primary/20 transition-colors group cursor-pointer">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="h-3 w-3 rounded-full" style={{ backgroundColor: p.color }} />
-                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{p.name}</h3>
+              {projects.length > 0 ? (
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {projects.map((p, i) => (
+                    <div key={i} className="glass-panel rounded-xl p-4 hover:border-primary/20 transition-colors group cursor-pointer">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="h-3 w-3 rounded-full" style={{ backgroundColor: p.color }} />
+                        <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{p.name}</h3>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-3">{p.desc}</p>
+                      <div className="flex gap-1.5">
+                        {p.tags.map(t => (
+                          <span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">{t}</span>
+                        ))}
+                      </div>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-3">{p.desc}</p>
-                    <div className="flex gap-1.5">
-                      {p.tags.map(t => (
-                        <span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="glass-panel rounded-xl p-8 text-center">
+                  <p className="text-sm text-muted-foreground">No projects yet</p>
+                  <p className="text-xs text-muted-foreground/60 mt-1">Projects will appear here as they're added.</p>
+                </div>
+              )}
             </div>
 
             {/* Activity Heatmap */}
@@ -203,7 +269,6 @@ const Profile = () => {
 
           {/* Side stats */}
           <div className="space-y-4">
-            {/* XP Card */}
             <div className="glass-panel rounded-xl p-5 text-center">
               <p className="text-3xl font-mono font-bold text-foreground">2,450</p>
               <p className="text-xs text-muted-foreground mt-1">Total XP</p>
@@ -213,7 +278,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Stats */}
             <div className="glass-panel rounded-xl p-5 space-y-4">
               {stats.map((s, i) => (
                 <div key={i} className="flex items-center justify-between">
@@ -223,7 +287,6 @@ const Profile = () => {
               ))}
             </div>
 
-            {/* Achievements */}
             <div className="glass-panel rounded-xl p-5">
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Achievements</h3>
               <div className="flex flex-wrap gap-2">
@@ -235,6 +298,18 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      {/* Edit Modal — only rendered for owner */}
+      {isOwner && (
+        <ProfileEditModal
+          open={editOpen}
+          onOpenChange={setEditOpen}
+          data={profileData}
+          clerkAvatarUrl={user?.imageUrl}
+          clerkName={user?.fullName || user?.firstName}
+          onSave={saveProfile}
+        />
+      )}
     </AppLayout>
   );
 };
