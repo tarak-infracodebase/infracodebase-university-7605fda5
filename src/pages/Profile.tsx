@@ -1,6 +1,7 @@
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { Share2, MapPin, Calendar, Flame, Trophy } from "lucide-react";
+import { useUser } from "@clerk/clerk-react";
 import buildWithHerBg from "@/assets/build-with-her-bg.png";
 
 const projects = [
@@ -24,6 +25,17 @@ const stats = [
 ];
 
 const Profile = () => {
+  const { user } = useUser();
+  const fullName = user?.fullName || user?.firstName || "Your Name";
+  const initials = user?.firstName && user?.lastName
+    ? `${user.firstName[0]}${user.lastName[0]}`
+    : user?.firstName?.[0] || "YO";
+  const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
+  const avatarUrl = user?.imageUrl;
+  const joinedDate = user?.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })
+    : "Feb 2026";
+
   return (
     <AppLayout>
       <div className="max-w-5xl mx-auto pb-12">
@@ -37,12 +49,16 @@ const Profile = () => {
         {/* Avatar + Info */}
         <div className="px-6 lg:px-8 -mt-16 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
-            <div className="h-28 w-28 rounded-full border-4 border-background bg-card flex items-center justify-center text-3xl font-mono font-bold text-foreground shrink-0">
-              YO
-            </div>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={fullName} className="h-28 w-28 rounded-full border-4 border-background object-cover shrink-0" />
+            ) : (
+              <div className="h-28 w-28 rounded-full border-4 border-background bg-card flex items-center justify-center text-3xl font-mono font-bold text-foreground shrink-0">
+                {initials}
+              </div>
+            )}
             <div className="flex-1 pb-2">
-              <h1 className="text-2xl font-bold">Your Name</h1>
-              <p className="text-sm text-muted-foreground">@yourhandle</p>
+              <h1 className="text-2xl font-bold">{fullName}</h1>
+              <p className="text-sm text-muted-foreground">@{handle}</p>
             </div>
             <div className="flex items-center gap-2 pb-2">
               <button className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center gap-1.5">
@@ -54,7 +70,7 @@ const Profile = () => {
           {/* Bio row */}
           <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> Infrastructure Engineer</span>
-            <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined Feb 2026</span>
+            <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined {joinedDate}</span>
             <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 12 day streak</span>
             <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Silver League</span>
           </div>
