@@ -7,7 +7,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
-import { UserButton, useUser } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { LogIn } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
