@@ -177,16 +177,24 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       </div>
       <MobileNav />
-      {/* Desktop User Button */}
+      {/* Desktop User Button / Sign In */}
       <div className="hidden lg:block fixed top-4 right-6 z-50">
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: "h-10 w-10 border-2 border-border/50 shadow-lg",
-            },
-          }}
-        />
+        <SignedIn>
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "h-10 w-10 border-2 border-border/50 shadow-lg",
+              },
+            }}
+          />
+        </SignedIn>
+        <SignedOut>
+          <Link to="/sign-in" className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors">
+            <LogIn className="h-4 w-4" />
+            Sign in
+          </Link>
+        </SignedOut>
       </div>
       <main className={cn(
         "transition-all duration-300 min-h-screen",
