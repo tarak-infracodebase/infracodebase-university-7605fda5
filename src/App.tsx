@@ -28,7 +28,7 @@ import HandsOnModule from "./pages/HandsOnModule";
 import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
 
-const CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuaW5mcmFjb2RlYmFzZS5jb20k";
+const CLERK_PUBLISHABLE_KEY = "pk_test_ZGVsaWNhdGUta29pLTkyLmNsZXJrLmFjY291bnRzLmRldiQ";
 
 const queryClient = new QueryClient();
 
