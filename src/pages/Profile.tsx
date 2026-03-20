@@ -49,12 +49,16 @@ const Profile = () => {
         {/* Avatar + Info */}
         <div className="px-6 lg:px-8 -mt-16 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
-            <div className="h-28 w-28 rounded-full border-4 border-background bg-card flex items-center justify-center text-3xl font-mono font-bold text-foreground shrink-0">
-              YO
-            </div>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={fullName} className="h-28 w-28 rounded-full border-4 border-background object-cover shrink-0" />
+            ) : (
+              <div className="h-28 w-28 rounded-full border-4 border-background bg-card flex items-center justify-center text-3xl font-mono font-bold text-foreground shrink-0">
+                {initials}
+              </div>
+            )}
             <div className="flex-1 pb-2">
-              <h1 className="text-2xl font-bold">Your Name</h1>
-              <p className="text-sm text-muted-foreground">@yourhandle</p>
+              <h1 className="text-2xl font-bold">{fullName}</h1>
+              <p className="text-sm text-muted-foreground">@{handle}</p>
             </div>
             <div className="flex items-center gap-2 pb-2">
               <button className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center gap-1.5">
