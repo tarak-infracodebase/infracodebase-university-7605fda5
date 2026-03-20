@@ -168,33 +168,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       </div>
       <MobileNav />
-      {/* Desktop Profile Dropdown */}
+      {/* Desktop User Button */}
       <div className="hidden lg:block fixed top-4 right-6 z-50">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="rounded-full hover:opacity-80 transition-opacity">
-              <Avatar className="h-10 w-10 border-2 border-border/50 shadow-lg">
-                <AvatarFallback className="bg-primary/10 text-primary text-sm font-bold">
-                  U
-                </AvatarFallback>
-              </Avatar>
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem asChild>
-              <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
-                <User className="h-4 w-4" />
-                <span>Profile</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/appearance" className="flex items-center gap-2 cursor-pointer">
-                <Palette className="h-4 w-4" />
-                <span>Appearance</span>
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <UserButton
+          afterSignOutUrl="/"
+          appearance={{
+            elements: {
+              avatarBox: "h-10 w-10 border-2 border-border/50 shadow-lg",
+            },
+          }}
+        />
       </div>
       <main className={cn(
         "transition-all duration-300 min-h-screen",
