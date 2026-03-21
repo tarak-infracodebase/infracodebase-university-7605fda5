@@ -291,7 +291,7 @@ function CalendarDropdown() {
             borderRadius: '10px',
             minWidth: '240px',
             padding: '6px',
-            zIndex: 200,
+            zIndex: 300,
             boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
           }}
         >
