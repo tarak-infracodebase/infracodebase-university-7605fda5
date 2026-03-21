@@ -53,7 +53,7 @@ const videos: VideoItem[] = [
   {
     id: "advanced-architecture",
     title: "Advanced Infrastructure Architecture",
-    src: "/assets/Track6_Introduction.mp4",
+    src: "https://www.youtube.com/embed/uttMQYxDa_s?rel=0&modestbranding=1&controls=1",
     category: "Infrastructure Architecture",
     description: "Start this track by understanding how to design systems that handle scale, failure, and complexity.",
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
