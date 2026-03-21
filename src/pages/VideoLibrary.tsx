@@ -19,7 +19,8 @@ interface VideoItem {
   trackLabel: string;
   trackPath: string;
   badge?: string;
-  embedPlayer?: boolean;
+  thumbnail?: string;
+  youtubeEmbed?: string;
 }
 
 const videos: VideoItem[] = [
