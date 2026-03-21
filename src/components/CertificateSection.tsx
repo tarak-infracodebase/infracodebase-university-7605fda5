@@ -160,6 +160,7 @@ function Certificate({ cert, isMaster = false }: CertProps) {
       {/* Certificate Card */}
       <div
         ref={certRef}
+        data-cert-card
         style={{
           background: masterBg,
           borderRadius: 16,
