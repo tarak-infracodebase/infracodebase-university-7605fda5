@@ -65,6 +65,7 @@ const App = () => (
               <Route path="/hands-on" element={<ProtectedRoute><HandsOnExercises /></ProtectedRoute>} />
               <Route path="/hands-on/:trackId" element={<ProtectedRoute><HandsOnTrack /></ProtectedRoute>} />
               <Route path="/hands-on/:trackId/:moduleId" element={<ProtectedRoute><HandsOnModule /></ProtectedRoute>} />
+              <Route path="/office-hours" element={<ProtectedRoute><OfficeHours /></ProtectedRoute>} />
 
               {/* Public username profile route */}
               <Route path="/:username" element={<Profile />} />

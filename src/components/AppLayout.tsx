@@ -18,6 +18,7 @@ const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/videos", label: "Video Library", icon: Play },
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { path: "/office-hours", label: "Office Hours", icon: Radio },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/resources", label: "Resources", icon: FolderOpen },
   { path: "/profile", label: "Profile", icon: User },
