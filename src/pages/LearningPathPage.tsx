@@ -48,6 +48,12 @@ function IntroVideo({ pathId }: { pathId: string }) {
         <p className="text-xs text-muted-foreground max-w-sm">
           {pathId === "cloud-infrastructure-intro"
             ? "This track will introduce the cloud & infrastructure prerequisite program, explain the three tiers, and help you identify where to start."
+            : pathId === "prereq-foundations"
+            ? "Tier 1 covers cloud fundamentals — compute, storage, networking, identity, and your first real infrastructure environment."
+            : pathId === "prereq-intermediate"
+            ? "Tier 2 covers real IaC with Terraform, multi-AZ networking, security architecture, scalability, CI/CD, and observability."
+            : pathId === "prereq-expert"
+            ? "Tier 3 covers resilience engineering, the Well-Architected Framework, FinOps, governance, DevSecOps, and cloud-native patterns."
             : "This track will include an embedded introduction video to guide learners through the course overview and learning objectives."
           }
         </p>
@@ -102,9 +108,30 @@ function ContinueLearningCard({
 
 const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string; label?: string }> = {
   "cloud-infrastructure-intro": {
+    trackNumber: 0,
+    title: "Foundations",
+    description: "Begin the first tier of the cloud & infrastructure prerequisite program.",
+    pathId: "prereq-foundations",
+    label: "Start Tier 1",
+  },
+  "prereq-foundations": {
+    trackNumber: 0,
+    title: "Intermediate",
+    description: "Continue to the second tier covering real IaC, security architecture, and CI/CD.",
+    pathId: "prereq-intermediate",
+    label: "Start Tier 2",
+  },
+  "prereq-intermediate": {
+    trackNumber: 0,
+    title: "Expert",
+    description: "Continue to the third tier covering resilience, governance, and cloud-native architecture.",
+    pathId: "prereq-expert",
+    label: "Start Tier 3",
+  },
+  "prereq-expert": {
     trackNumber: 1,
     title: "Welcome & Orientation",
-    description: "You are ready to begin the Infracodebase curriculum.",
+    description: "You have completed all prerequisites. Begin the Infracodebase curriculum.",
     pathId: "welcome-orientation",
     label: "Start Track 1",
   },
@@ -148,7 +175,7 @@ function ProgressSidebar({
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
-  const isPrereq = currentTrackId === "cloud-infrastructure-intro";
+  const isPrereq = currentTrackId === "cloud-infrastructure-intro" || currentTrackId.startsWith("prereq-");
   const isOnboarding = currentTrackId === "welcome-orientation" || isPrereq;
 
   return (
@@ -165,14 +192,13 @@ function ProgressSidebar({
           {/* Next Step — onboarding action block */}
           <div className="glass-panel rounded-xl p-5">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h4>
-            {isPrereq ? (
+            {isPrereq && upNext ? (
               <>
-                <p className="text-xs text-muted-foreground mb-3">You are ready to begin the Infracodebase curriculum.</p>
-                <p className="text-sm font-semibold mb-1">Track 1: Welcome & Orientation</p>
-                <p className="text-xs text-muted-foreground leading-relaxed mb-4">Start the Infracodebase curriculum with the full orientation and program overview.</p>
-                <Link to="/path/welcome-orientation">
+                <p className="text-xs text-muted-foreground mb-3">{upNext.description}</p>
+                <p className="text-sm font-semibold mb-1">{upNext.title}</p>
+                <Link to={`/path/${upNext.pathId}`}>
                   <Button size="sm" className="w-full gap-1.5 text-xs">
-                    <Play className="h-3 w-3" /> Start Track 1
+                    <Play className="h-3 w-3" /> {upNext.label || "Continue"}
                   </Button>
                 </Link>
               </>
@@ -281,7 +307,7 @@ const LearningPathPage = () => {
           <ArrowLeft className="h-3 w-3" /> All Learning Paths
         </Link>
         <div className="flex items-start gap-4">
-          <CrystalIcon color={path.color === "prerequisite" ? "hsl(235, 56%, 34%)" : crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
+          <CrystalIcon color={path.color === "prerequisite" ? (path.accentColor || "hsl(235, 56%, 34%)") : crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
           <div>
             <div className="text-[10px] font-mono mb-1">
               {path.color === "prerequisite" ? (
