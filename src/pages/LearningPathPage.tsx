@@ -186,14 +186,13 @@ function ProgressSidebar({
           {/* Next Step — onboarding action block */}
           <div className="glass-panel rounded-xl p-5">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h4>
-            {isPrereq ? (
+            {isPrereq && upNext ? (
               <>
-                <p className="text-xs text-muted-foreground mb-3">You are ready to begin the Infracodebase curriculum.</p>
-                <p className="text-sm font-semibold mb-1">Track 1: Welcome & Orientation</p>
-                <p className="text-xs text-muted-foreground leading-relaxed mb-4">Start the Infracodebase curriculum with the full orientation and program overview.</p>
-                <Link to="/path/welcome-orientation">
+                <p className="text-xs text-muted-foreground mb-3">{upNext.description}</p>
+                <p className="text-sm font-semibold mb-1">{upNext.title}</p>
+                <Link to={`/path/${upNext.pathId}`}>
                   <Button size="sm" className="w-full gap-1.5 text-xs">
-                    <Play className="h-3 w-3" /> Start Track 1
+                    <Play className="h-3 w-3" /> {upNext.label || "Continue"}
                   </Button>
                 </Link>
               </>
