@@ -56,6 +56,7 @@ const Profile = () => {
     website: "",
     bannerUrl: null as string | null,
     customAvatarUrl: null as string | null,
+    customHandle: "",
   });
 
   const bannerRef = useRef<HTMLInputElement>(null);
