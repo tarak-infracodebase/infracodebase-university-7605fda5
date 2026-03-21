@@ -680,7 +680,7 @@ export default function OfficeHours() {
             </div>
 
             {/* Hosted by */}
-            <div className="lg:w-72 shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4">
+            <div className="shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4" style={{ minWidth: '280px' }}>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
                 {[
@@ -688,14 +688,19 @@ export default function OfficeHours() {
                   { name: "Tarak", photo: "/Tarak.jpeg", title: "Co-Founder, Infracodebase" },
                 ].map(host => (
                   <div key={host.name} className="flex items-center gap-3">
-                    <img
-                      src={host.photo}
-                      alt={host.name}
-                      width={44}
-                      height={44}
-                      className="rounded-full object-cover"
-                      style={{ border: "2px solid #1c2e47" }}
-                    />
+                    <div style={{ width: '44px', height: '44px', flexShrink: 0, overflow: 'hidden', borderRadius: '50%' }}>
+                      <img
+                        src={host.photo}
+                        alt={host.name}
+                        style={{
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{host.name}</p>
                       <p className="text-xs text-muted-foreground">{host.title}</p>
