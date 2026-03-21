@@ -180,6 +180,9 @@ export const learningPaths: LearningPath[] = [
       }
     ]
   },
+  prereqFoundations,
+  prereqIntermediate,
+  prereqExpert,
   {
     id: "welcome-orientation",
     title: "Welcome & Orientation",
