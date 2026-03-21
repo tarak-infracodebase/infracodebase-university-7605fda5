@@ -93,14 +93,13 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
       {/* Video area */}
       <div className="aspect-video bg-muted/30 relative overflow-hidden">
         {video.embedPlayer ? (
-          <video
-            ref={videoRef}
+          <iframe
             src={video.src}
-            controls
-            preload="metadata"
-            playsInline
-            onTimeUpdate={handleTimeUpdate}
-            className="w-full h-full object-cover rounded-t-xl"
+            title={video.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full rounded-t-xl"
           />
         ) : (
           <>
