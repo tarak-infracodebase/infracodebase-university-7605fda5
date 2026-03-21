@@ -18,6 +18,7 @@ interface VideoItem {
   description: string;
   trackLabel: string;
   trackPath: string;
+  badge?: string;
 }
 
 const videos: VideoItem[] = [
@@ -47,6 +48,16 @@ const videos: VideoItem[] = [
     description: "Learn how to create, maintain, and evolve architecture diagrams and living documentation that stay synchronized with your real infrastructure.",
     trackLabel: "Track 4 — Architecture Diagrams & Living Documentation",
     trackPath: "/path/architecture-diagrams",
+  },
+  {
+    id: "advanced-architecture",
+    title: "Track 6: Advanced Infrastructure Architecture",
+    src: "/assets/Track6_Introduction.mp4",
+    category: "Infrastructure Architecture",
+    description: "Start this track by understanding how to design systems that handle scale, failure, and complexity.",
+    trackLabel: "Track 6 — Advanced Infrastructure Architecture",
+    trackPath: "/path/advanced-architecture",
+    badge: "Track Introduction",
   },
 ];
 
@@ -90,6 +101,11 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
           <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">
             {video.category}
           </span>
+          {video.badge && (
+            <span className="px-2 py-0.5 rounded-full bg-muted/50 text-muted-foreground text-[10px] font-medium border border-border/30">
+              {video.badge}
+            </span>
+          )}
         </div>
         <Link
           to={video.trackPath}
