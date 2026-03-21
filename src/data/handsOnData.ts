@@ -33,7 +33,10 @@ export interface HandsOnTrack {
   modules: HandsOnModule[];
 }
 
+import { handsOnPrereqTracks } from "./handsOnPrereqData";
+
 export const handsOnTracks: HandsOnTrack[] = [
+  ...handsOnPrereqTracks,
   {
     id: "track-2-hands-on",
     trackNumber: 2,

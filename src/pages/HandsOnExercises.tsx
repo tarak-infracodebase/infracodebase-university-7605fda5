@@ -12,7 +12,10 @@ const methodSteps = [
   { label: "Iterate", description: "Refine until the system matches your intent" },
 ];
 
-const trackNumberMap: Record<string, number> = {
+const trackNumberMap: Record<string, number | string> = {
+  "prereq-1-hands-on": "Prereq 1",
+  "prereq-2-hands-on": "Prereq 2",
+  "prereq-3-hands-on": "Prereq 3",
   "track-2-hands-on": 2,
   "track-3-hands-on": 3,
   "track-4-hands-on": 4,
@@ -20,17 +23,19 @@ const trackNumberMap: Record<string, number> = {
   "track-6-hands-on": 6,
 };
 
-// Ordered tracks: Track 2 (Foundations) first, then 3, 4, 5, 6
-const orderedTracks = [
-  handsOnTracks.find(t => t.id === "track-2-hands-on")!,
-  handsOnTracks.find(t => t.id === "track-3-hands-on")!,
-  handsOnTracks.find(t => t.id === "track-4-hands-on")!,
-  handsOnTracks.find(t => t.id === "track-5-hands-on")!,
-  handsOnTracks.find(t => t.id === "track-6-hands-on")!,
-].filter(Boolean);
+const prereqTracks = handsOnTracks.filter(t => t.id.startsWith("prereq-"));
+const curriculumTracks = handsOnTracks.filter(t => !t.id.startsWith("prereq-"));
 
-const featuredTrack = orderedTracks[0];
-const otherTracks = orderedTracks.slice(1);
+// Ordered curriculum tracks
+const orderedCurriculumTracks = [
+  curriculumTracks.find(t => t.id === "track-2-hands-on"),
+  curriculumTracks.find(t => t.id === "track-3-hands-on"),
+  curriculumTracks.find(t => t.id === "track-4-hands-on"),
+  curriculumTracks.find(t => t.id === "track-5-hands-on"),
+  curriculumTracks.find(t => t.id === "track-6-hands-on"),
+].filter(Boolean) as typeof handsOnTracks;
+
+const featuredTrack = prereqTracks[0] || orderedCurriculumTracks[0];
 
 function getLevelColor(level: string) {
   switch (level) {
@@ -39,6 +44,55 @@ function getLevelColor(level: string) {
     case "Advanced": return "bg-purple-500/15 text-purple-400 border-purple-500/30";
     default: return "bg-muted text-muted-foreground";
   }
+}
+
+function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
+  const label = trackNumberMap[track.id];
+  return (
+    <Link
+      key={track.id}
+      to={`/hands-on/${track.id}`}
+      className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+          {typeof label === "number" ? `Track ${label}` : label}
+        </span>
+        <span className="text-muted-foreground/30">·</span>
+        <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
+          {track.level}
+        </span>
+      </div>
+      <h3 className="font-bold text-base mb-2">{track.title}</h3>
+      <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">
+        {track.description}
+      </p>
+      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+        <span className="flex items-center gap-1">
+          <BookOpen className="h-3 w-3" />
+          {track.moduleCount} Modules
+        </span>
+        <span className="flex items-center gap-1">
+          <Clock className="h-3 w-3" />
+          {track.estimatedHours} Hours
+        </span>
+      </div>
+      <div className="flex -space-x-1 mt-4">
+        {track.modules.map((_, i) => (
+          <div
+            key={i}
+            className="h-5 w-5 rounded-full border-2 border-background flex items-center justify-center text-[8px] font-bold"
+            style={{ background: track.accentColor, color: track.color }}
+          >
+            {i + 1}
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 flex items-center gap-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: track.color }}>
+        Start learning <ArrowRight className="h-3 w-3" />
+      </div>
+    </Link>
+  );
 }
 
 const HandsOnExercises = () => {
@@ -67,7 +121,7 @@ const HandsOnExercises = () => {
           >
              <div className="flex items-center gap-2 mb-3">
                <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
-                 Track {trackNumberMap[featuredTrack.id]}
+                 {trackNumberMap[featuredTrack.id]}
                </span>
                <span className="text-muted-foreground/30">·</span>
                <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
@@ -128,53 +182,31 @@ const HandsOnExercises = () => {
           </div>
         </div>
 
-        {/* More Learning Paths */}
-        <h2 className="text-lg font-bold mb-5 text-center">More learning paths</h2>
+        {/* Prerequisite Tracks */}
+        {prereqTracks.length > 0 && (
+          <>
+            <div className="flex items-center gap-3 mb-5">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Cloud & Infrastructure Prerequisites</span>
+              <div className="flex-1 h-px bg-border/50" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-10">
+              {prereqTracks.map((track) => (
+                <TrackCard key={track.id} track={track} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-5">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Infracodebase Hands-On Training — begin after completing prerequisites</span>
+          <div className="flex-1 h-px bg-border/50" />
+        </div>
+
+        {/* Curriculum Tracks */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-          {otherTracks.map((track) => (
-            <Link
-              key={track.id}
-              to={`/hands-on/${track.id}`}
-              className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
-                  Track {trackNumberMap[track.id]}
-                </span>
-                <span className="text-muted-foreground/30">·</span>
-                <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
-                  {track.level}
-                </span>
-              </div>
-              <h3 className="font-bold text-base mb-2">{track.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">
-                {track.description}
-              </p>
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <BookOpen className="h-3 w-3" />
-                  {track.moduleCount} Modules
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {track.estimatedHours} Hours
-                </span>
-              </div>
-              <div className="flex -space-x-1 mt-4">
-                {track.modules.map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-5 w-5 rounded-full border-2 border-background flex items-center justify-center text-[8px] font-bold"
-                    style={{ background: track.accentColor, color: track.color }}
-                  >
-                    {i + 1}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 flex items-center gap-1 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: track.color }}>
-                Start learning <ArrowRight className="h-3 w-3" />
-              </div>
-            </Link>
+          {orderedCurriculumTracks.map((track) => (
+            <TrackCard key={track.id} track={track} />
           ))}
         </div>
       </div>
