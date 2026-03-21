@@ -20,7 +20,6 @@ interface VideoItem {
   trackPath: string;
   badge?: string;
   thumbnail?: string;
-  youtubeEmbed?: string;
 }
 
 const videos: VideoItem[] = [
@@ -60,8 +59,6 @@ const videos: VideoItem[] = [
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
     trackPath: "/path/advanced-architecture",
     badge: "Track Introduction",
-    thumbnail: `https://img.youtube.com/vi/uttMQYxDa_s/hqdefault.jpg`,
-    youtubeEmbed: "https://www.youtube.com/embed/uttMQYxDa_s?rel=0&modestbranding=1&controls=1&autoplay=1",
   },
 ];
 
@@ -152,17 +149,7 @@ function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => voi
           Close ✕
         </button>
       </div>
-      {video.youtubeEmbed ? (
-        <iframe
-          src={video.youtubeEmbed}
-          title={video.title}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full aspect-video"
-        />
-      ) : (
-        <video
+      <video
           ref={ref}
           controls
           autoPlay
@@ -179,7 +166,6 @@ function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => voi
         >
           <source src={video.src} type="video/mp4" />
         </video>
-      )}
       <div className="p-4">
         <p className="text-xs text-muted-foreground">{video.description}</p>
         <Link to={video.trackPath} className="text-xs text-primary hover:underline mt-2 inline-block">
@@ -295,13 +281,13 @@ const VideoLibrary = () => {
             {selectedTopic === "All" ? "All Videos" : selectedTopic}
           </h2>
           <div className="grid sm:grid-cols-2 gap-5">
-            {filtered.filter(v => !v.youtubeEmbed).map(v => (
+            {filtered.filter(v => v.id !== "advanced-architecture").map(v => (
               <VideoCard key={v.id} video={v} onPlay={handlePlay} />
             ))}
           </div>
-          {filtered.some(v => v.youtubeEmbed) && (
+          {filtered.some(v => v.id === "advanced-architecture") && (
             <div className="grid sm:grid-cols-2 gap-5 mt-5">
-              {filtered.filter(v => v.youtubeEmbed).map(v => (
+              {filtered.filter(v => v.id === "advanced-architecture").map(v => (
                 <VideoCard key={v.id} video={v} onPlay={handlePlay} />
               ))}
             </div>
