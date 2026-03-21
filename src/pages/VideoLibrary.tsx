@@ -18,6 +18,7 @@ interface VideoItem {
   description: string;
   trackLabel: string;
   trackPath: string;
+  badge?: string;
 }
 
 const videos: VideoItem[] = [
