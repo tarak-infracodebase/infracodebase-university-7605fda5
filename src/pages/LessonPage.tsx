@@ -123,6 +123,11 @@ const LessonPage = () => {
               </div>
             </section>
 
+            {/* Tier Selection Cards — only on "How to Begin" lesson */}
+            {lesson.id === "prereq-how-to-begin" && (
+              <TierSelectionCards />
+            )}
+
             {/* Comparison Tables */}
             {lesson.comparisonTables && lesson.comparisonTables.length > 0 && (
               <section className="mb-8">
