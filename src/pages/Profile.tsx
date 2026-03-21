@@ -517,7 +517,6 @@ const Profile = () => {
           <CertificateSection />
         </div>
       </div>
-      </div>
     </AppLayout>
   );
 };
