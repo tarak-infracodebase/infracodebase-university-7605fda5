@@ -59,6 +59,7 @@ const videos: VideoItem[] = [
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
     trackPath: "/path/advanced-architecture",
     badge: "Track Introduction",
+    embedPlayer: true,
   },
 ];
 
