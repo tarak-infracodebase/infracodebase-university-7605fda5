@@ -101,6 +101,11 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
           <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">
             {video.category}
           </span>
+          {video.badge && (
+            <span className="px-2 py-0.5 rounded-full bg-muted/50 text-muted-foreground text-[10px] font-medium border border-border/30">
+              {video.badge}
+            </span>
+          )}
         </div>
         <Link
           to={video.trackPath}
