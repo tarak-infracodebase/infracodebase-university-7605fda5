@@ -57,6 +57,7 @@ const videos: VideoItem[] = [
     description: "Start this track by understanding how to design systems that handle scale, failure, and complexity.",
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
     trackPath: "/path/advanced-architecture",
+    badge: "Track Introduction",
   },
 ];
 
