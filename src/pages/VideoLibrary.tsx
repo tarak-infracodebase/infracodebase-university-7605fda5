@@ -1,6 +1,6 @@
 import { AppLayout } from "@/components/AppLayout";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Search, Play, Clock, Filter, ArrowRight, Video } from "lucide-react";
+import { Search, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
@@ -19,7 +19,8 @@ interface VideoItem {
   trackLabel: string;
   trackPath: string;
   badge?: string;
-  embedPlayer?: boolean;
+  thumbnail?: string;
+  youtubeEmbed?: string;
 }
 
 const videos: VideoItem[] = [
@@ -53,13 +54,14 @@ const videos: VideoItem[] = [
   {
     id: "advanced-architecture",
     title: "Advanced Infrastructure Architecture",
-    src: "https://www.youtube.com/embed/uttMQYxDa_s?rel=0&modestbranding=1&controls=1",
+    src: "/assets/Track6_Introduction.mp4",
     category: "Infrastructure Architecture",
     description: "Start this track by understanding how to design systems that handle scale, failure, and complexity.",
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
     trackPath: "/path/advanced-architecture",
     badge: "Track Introduction",
-    embedPlayer: true,
+    thumbnail: `https://img.youtube.com/vi/uttMQYxDa_s/hqdefault.jpg`,
+    youtubeEmbed: "https://www.youtube.com/embed/uttMQYxDa_s?rel=0&modestbranding=1&controls=1&autoplay=1",
   },
 ];
 
@@ -74,47 +76,27 @@ function setProgressStorage(id: string, pct: number) {
 
 function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem) => void }) {
   const progress = getProgress(video.id);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const handleTimeUpdate = useCallback(() => {
-    const el = videoRef.current;
-    if (!el || !el.duration) return;
-    setProgressStorage(video.id, (el.currentTime / el.duration) * 100);
-  }, [video.id]);
-
   return (
     <div
-      className={cn(
-        "group glass-panel rounded-xl overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10",
-        !video.embedPlayer && "cursor-pointer"
-      )}
-      onClick={video.embedPlayer ? undefined : () => onPlay(video)}
+      className="group glass-panel rounded-xl overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
+      onClick={() => onPlay(video)}
     >
       {/* Video area */}
       <div className="aspect-video bg-muted/30 relative overflow-hidden">
-        {video.embedPlayer ? (
-          <iframe
-            src={video.src}
-            title={video.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full rounded-t-xl"
-          />
+        {video.thumbnail ? (
+          <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
         ) : (
-          <>
-            <video src={video.src} preload="metadata" muted className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-background/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <div className="h-14 w-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
-                <Play className="h-6 w-6 text-primary-foreground ml-0.5" />
-              </div>
-            </div>
-            {progress > 0 && (
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted/50">
-                <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
-              </div>
-            )}
-          </>
+          <video src={video.src} preload="metadata" muted className="w-full h-full object-cover" />
+        )}
+        <div className="absolute inset-0 bg-background/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="h-14 w-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
+            <Play className="h-6 w-6 text-primary-foreground ml-0.5" />
+          </div>
+        </div>
+        {progress > 0 && (
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted/50">
+            <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+          </div>
         )}
       </div>
 
@@ -170,23 +152,34 @@ function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => voi
           Close ✕
         </button>
       </div>
-      <video
-        ref={ref}
-        controls
-        autoPlay
-        preload="metadata"
-        playsInline
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={() => {
-          const el = ref.current;
-          if (!el) return;
-          const saved = getProgress(video.id);
-          if (saved > 0 && saved < 98) el.currentTime = (saved / 100) * el.duration;
-        }}
-        className="w-full aspect-video bg-black"
-      >
-        <source src={video.src} type="video/mp4" />
-      </video>
+      {video.youtubeEmbed ? (
+        <iframe
+          src={video.youtubeEmbed}
+          title={video.title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="w-full aspect-video"
+        />
+      ) : (
+        <video
+          ref={ref}
+          controls
+          autoPlay
+          preload="metadata"
+          playsInline
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={() => {
+            const el = ref.current;
+            if (!el) return;
+            const saved = getProgress(video.id);
+            if (saved > 0 && saved < 98) el.currentTime = (saved / 100) * el.duration;
+          }}
+          className="w-full aspect-video bg-black"
+        >
+          <source src={video.src} type="video/mp4" />
+        </video>
+      )}
       <div className="p-4">
         <p className="text-xs text-muted-foreground">{video.description}</p>
         <Link to={video.trackPath} className="text-xs text-primary hover:underline mt-2 inline-block">
@@ -302,13 +295,13 @@ const VideoLibrary = () => {
             {selectedTopic === "All" ? "All Videos" : selectedTopic}
           </h2>
           <div className="grid sm:grid-cols-2 gap-5">
-            {filtered.filter(v => !v.embedPlayer).map(v => (
+            {filtered.filter(v => !v.youtubeEmbed).map(v => (
               <VideoCard key={v.id} video={v} onPlay={handlePlay} />
             ))}
           </div>
-          {filtered.some(v => v.embedPlayer) && (
+          {filtered.some(v => v.youtubeEmbed) && (
             <div className="grid sm:grid-cols-2 gap-5 mt-5">
-              {filtered.filter(v => v.embedPlayer).map(v => (
+              {filtered.filter(v => v.youtubeEmbed).map(v => (
                 <VideoCard key={v.id} video={v} onPlay={handlePlay} />
               ))}
             </div>
