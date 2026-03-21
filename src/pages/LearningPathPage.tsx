@@ -48,6 +48,12 @@ function IntroVideo({ pathId }: { pathId: string }) {
         <p className="text-xs text-muted-foreground max-w-sm">
           {pathId === "cloud-infrastructure-intro"
             ? "This track will introduce the cloud & infrastructure prerequisite program, explain the three tiers, and help you identify where to start."
+            : pathId === "prereq-foundations"
+            ? "Tier 1 covers cloud fundamentals — compute, storage, networking, identity, and your first real infrastructure environment."
+            : pathId === "prereq-intermediate"
+            ? "Tier 2 covers real IaC with Terraform, multi-AZ networking, security architecture, scalability, CI/CD, and observability."
+            : pathId === "prereq-expert"
+            ? "Tier 3 covers resilience engineering, the Well-Architected Framework, FinOps, governance, DevSecOps, and cloud-native patterns."
             : "This track will include an embedded introduction video to guide learners through the course overview and learning objectives."
           }
         </p>
