@@ -91,17 +91,6 @@ const initialScreenshots = [
   { src: "/compliance.png", caption: "Compliance score — 58% · 28 pass · 21 fail · 1 overridden" },
 ];
 
-/* ── ICS download ── */
-function downloadICS() {
-  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Infracodebase University//EN\nBEGIN:VEVENT\nDTSTART:20260325T160000Z\nDTEND:20260325T170000Z\nSUMMARY:Infracodebase University — Office Hours\nDESCRIPTION:Weekly live Q&A with Justin and Tarak.\nLOCATION:Online\nRRULE:FREQ=WEEKLY;BYDAY=WE\nEND:VEVENT\nEND:VCALENDAR`;
-  const blob = new Blob([ics], { type: "text/calendar" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "infracodebase-office-hours.ics";
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 /* ── Inline editable text ── */
 function InlineField({
