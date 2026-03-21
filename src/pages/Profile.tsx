@@ -70,7 +70,9 @@ const Profile = () => {
       website: profileData.website,
       bannerUrl: profileData.bannerUrl,
       customAvatarUrl: profileData.customAvatarUrl,
+      customHandle: profileData.customHandle || clerkHandle,
     });
+    setHandleError("");
     setEditing(true);
   };
 
