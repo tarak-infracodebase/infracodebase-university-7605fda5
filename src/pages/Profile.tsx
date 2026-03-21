@@ -510,8 +510,11 @@ const Profile = () => {
               </div>
             </div>
 
-            <CertificateSection />
           </div>
+        </div>
+
+        <div className="px-6 lg:px-8 max-w-[900px]">
+          <CertificateSection />
         </div>
       </div>
     </AppLayout>
