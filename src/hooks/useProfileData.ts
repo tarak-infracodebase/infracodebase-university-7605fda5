@@ -7,6 +7,7 @@ export interface ProfileData {
   website: string;
   bannerUrl: string | null;
   customAvatarUrl: string | null;
+  customHandle: string;
 }
 
 const defaults: ProfileData = {
@@ -16,6 +17,7 @@ const defaults: ProfileData = {
   website: "",
   bannerUrl: null,
   customAvatarUrl: null,
+  customHandle: "",
 };
 
 function getStorageKey(userId: string) {
@@ -54,4 +56,21 @@ export function getProfileDataForUser(userId: string): ProfileData {
   } catch {
     return defaults;
   }
+}
+
+/** Check if a custom handle is already taken by another user */
+export function isHandleTaken(handle: string, currentUserId: string): boolean {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith("icu_profile_")) continue;
+      const uid = key.replace("icu_profile_", "");
+      if (uid === currentUserId) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const data = JSON.parse(raw) as Partial<ProfileData>;
+      if (data.customHandle && data.customHandle.toLowerCase() === handle.toLowerCase()) return true;
+    }
+  } catch {}
+  return false;
 }

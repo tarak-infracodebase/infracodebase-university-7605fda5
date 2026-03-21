@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X, Check } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
-import { useProfileData } from "@/hooks/useProfileData";
+import { useProfileData, isHandleTaken } from "@/hooks/useProfileData";
 import { ShareProfilePopover } from "@/components/profile/ShareProfilePopover";
 import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
@@ -35,13 +35,17 @@ const defaultBannerGradient = "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(
 const Profile = () => {
   const { username: urlUsername } = useParams<{ username: string }>();
   const { user, isLoaded } = useUser();
+  const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
-
-  const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
-  const isOwner = !urlUsername || urlUsername === handle;
-  const viewedHandle = urlUsername || handle;
+  const [handleError, setHandleError] = useState("");
 
   const { profileData, saveProfile } = useProfileData(user?.id);
+
+  const clerkHandle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
+  const resolvedHandle = profileData.customHandle || clerkHandle;
+  const isOwner = !urlUsername || urlUsername === resolvedHandle || urlUsername === clerkHandle;
+  const viewedHandle = urlUsername || resolvedHandle;
+
 
   // Draft state for inline editing
   const [draft, setDraft] = useState({
@@ -51,6 +55,7 @@ const Profile = () => {
     website: "",
     bannerUrl: null as string | null,
     customAvatarUrl: null as string | null,
+    customHandle: "",
   });
 
   const bannerRef = useRef<HTMLInputElement>(null);
@@ -64,7 +69,9 @@ const Profile = () => {
       website: profileData.website,
       bannerUrl: profileData.bannerUrl,
       customAvatarUrl: profileData.customAvatarUrl,
+      customHandle: profileData.customHandle || clerkHandle,
     });
+    setHandleError("");
     setEditing(true);
   };
 
@@ -72,7 +79,24 @@ const Profile = () => {
     setEditing(false);
   };
 
+  const validateHandle = (h: string): string => {
+    if (!h) return "Username is required";
+    if (h.length > 20) return "Max 20 characters";
+    if (!/^[a-z0-9_]+$/.test(h)) return "Only lowercase letters, numbers, underscores";
+    if (user?.id && isHandleTaken(h, user.id)) return "Username already taken";
+    return "";
+  };
+
+  const handleHandleChange = (value: string) => {
+    const sanitized = value.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 20);
+    setDraft(d => ({ ...d, customHandle: sanitized }));
+    setHandleError(validateHandle(sanitized));
+  };
+
   const handleSave = () => {
+    const err = validateHandle(draft.customHandle);
+    if (err) { setHandleError(err); return; }
+    const newHandle = draft.customHandle.trim();
     saveProfile({
       displayName: draft.displayName.trim(),
       bio: draft.bio.trim(),
@@ -80,8 +104,13 @@ const Profile = () => {
       website: draft.website.trim(),
       bannerUrl: draft.bannerUrl,
       customAvatarUrl: draft.customAvatarUrl,
+      customHandle: newHandle,
     });
     setEditing(false);
+    // Navigate to new handle URL if changed
+    if (newHandle !== resolvedHandle) {
+      navigate(`/${newHandle}`, { replace: true });
+    }
   };
 
   const handleFile = (file: File, field: "bannerUrl" | "customAvatarUrl") => {
@@ -198,7 +227,25 @@ const Profile = () => {
               ) : (
                 <h1 className="text-2xl font-bold">{displayName}</h1>
               )}
-              <p className="text-sm text-muted-foreground mt-0.5">@{viewedHandle}</p>
+              {editing ? (
+                <div className="mt-1">
+                  <div className="flex items-center gap-0">
+                    <span className="text-sm text-muted-foreground pl-2">@</span>
+                    <Input
+                      value={draft.customHandle}
+                      onChange={e => handleHandleChange(e.target.value)}
+                      placeholder="username"
+                      maxLength={20}
+                      className="text-sm h-7 py-0 px-1 bg-transparent border-border/50 focus:border-primary/40 w-40 text-muted-foreground"
+                    />
+                  </div>
+                  {handleError && (
+                    <p className="text-[11px] text-destructive mt-0.5 pl-2">{handleError}</p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground mt-0.5">@{viewedHandle}</p>
+              )}
             </div>
 
             {/* Actions */}
