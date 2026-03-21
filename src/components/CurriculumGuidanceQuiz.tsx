@@ -100,7 +100,11 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      />
       <div className="relative z-10 w-full max-w-lg rounded-xl border border-[#222] bg-[#141414] p-6 shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors">
           <X className="h-4 w-4" />
@@ -146,7 +150,8 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
               {currentQ.options.map((opt, i) => (
                 <label
                   key={i}
-                  className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  onClick={() => handleSelect(i)}
+                  className={`relative z-10 flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                     selectedAnswer === i
                       ? "border-[#d97706]/60 bg-[#d97706]/5"
                       : "border-[#222] hover:border-[#333]"
