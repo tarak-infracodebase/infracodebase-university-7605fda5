@@ -93,7 +93,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
 
   const handleGo = () => {
     onClose();
-    navigate("/path/cloud-infrastructure-intro/lesson/prereq-what-is-infracodebase");
+    navigate("/path/cloud-infrastructure-intro");
   };
 
   const framing = getFramingMessage(answers);
