@@ -509,6 +509,8 @@ const Profile = () => {
                 ))}
               </div>
             </div>
+
+            <CertificateSection />
           </div>
         </div>
       </div>
