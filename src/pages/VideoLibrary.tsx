@@ -74,24 +74,48 @@ function setProgressStorage(id: string, pct: number) {
 
 function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem) => void }) {
   const progress = getProgress(video.id);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleTimeUpdate = useCallback(() => {
+    const el = videoRef.current;
+    if (!el || !el.duration) return;
+    setProgressStorage(video.id, (el.currentTime / el.duration) * 100);
+  }, [video.id]);
 
   return (
     <div
-      className="group glass-panel rounded-xl overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10"
-      onClick={() => onPlay(video)}
+      className={cn(
+        "group glass-panel rounded-xl overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10",
+        !video.embedPlayer && "cursor-pointer"
+      )}
+      onClick={video.embedPlayer ? undefined : () => onPlay(video)}
     >
-      {/* Thumbnail */}
+      {/* Video area */}
       <div className="aspect-video bg-muted/30 relative overflow-hidden">
-        <video src={video.src} preload="metadata" muted className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-background/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <div className="h-14 w-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
-            <Play className="h-6 w-6 text-primary-foreground ml-0.5" />
-          </div>
-        </div>
-        {progress > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted/50">
-            <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
-          </div>
+        {video.embedPlayer ? (
+          <video
+            ref={videoRef}
+            src={video.src}
+            controls
+            preload="metadata"
+            playsInline
+            onTimeUpdate={handleTimeUpdate}
+            className="w-full h-full object-cover rounded-t-xl"
+          />
+        ) : (
+          <>
+            <video src={video.src} preload="metadata" muted className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-background/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="h-14 w-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
+                <Play className="h-6 w-6 text-primary-foreground ml-0.5" />
+              </div>
+            </div>
+            {progress > 0 && (
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted/50">
+                <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+              </div>
+            )}
+          </>
         )}
       </div>
 
