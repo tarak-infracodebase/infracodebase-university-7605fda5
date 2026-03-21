@@ -46,7 +46,10 @@ function IntroVideo({ pathId }: { pathId: string }) {
       <div className="text-center px-6">
         <h3 className="text-sm font-semibold text-foreground mb-1">Introduction</h3>
         <p className="text-xs text-muted-foreground max-w-sm">
-          This track will include an embedded introduction video to guide learners through the course overview and learning objectives.
+          {pathId === "cloud-infrastructure-intro"
+            ? "This track will introduce the cloud & infrastructure prerequisite program, explain the three tiers, and help you identify where to start."
+            : "This track will include an embedded introduction video to guide learners through the course overview and learning objectives."
+          }
         </p>
         <span className="inline-block mt-3 text-[10px] font-mono text-muted-foreground/50 border border-border/30 rounded-full px-3 py-1">
           Video coming soon
@@ -97,7 +100,14 @@ function ContinueLearningCard({
   );
 }
 
-const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string }> = {
+const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string; label?: string }> = {
+  "cloud-infrastructure-intro": {
+    trackNumber: 1,
+    title: "Welcome & Orientation",
+    description: "You are ready to begin the Infracodebase curriculum.",
+    pathId: "welcome-orientation",
+    label: "Start Track 1",
+  },
   "welcome-orientation": {
     trackNumber: 2,
     title: "Foundations — Understanding Infracodebase",
@@ -138,7 +148,8 @@ function ProgressSidebar({
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
-  const isOnboarding = currentTrackId === "welcome-orientation";
+  const isPrereq = currentTrackId === "cloud-infrastructure-intro";
+  const isOnboarding = currentTrackId === "welcome-orientation" || isPrereq;
 
   return (
     <div className="space-y-5">
@@ -154,27 +165,44 @@ function ProgressSidebar({
           {/* Next Step — onboarding action block */}
           <div className="glass-panel rounded-xl p-5">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h4>
-            <p className="text-xs text-muted-foreground mb-3">You are ready to start building your first infrastructure environment.</p>
-            <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
-            <Link to="/path/foundations">
-              <Button size="sm" className="w-full gap-1.5 text-xs">
-                <Play className="h-3 w-3" /> Start Track 2
-              </Button>
-            </Link>
+            {isPrereq ? (
+              <>
+                <p className="text-xs text-muted-foreground mb-3">You are ready to begin the Infracodebase curriculum.</p>
+                <p className="text-sm font-semibold mb-1">Track 1: Welcome & Orientation</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">Start the Infracodebase curriculum with the full orientation and program overview.</p>
+                <Link to="/path/welcome-orientation">
+                  <Button size="sm" className="w-full gap-1.5 text-xs">
+                    <Play className="h-3 w-3" /> Start Track 1
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-muted-foreground mb-3">You are ready to start building your first infrastructure environment.</p>
+                <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
+                <Link to="/path/foundations">
+                  <Button size="sm" className="w-full gap-1.5 text-xs">
+                    <Play className="h-3 w-3" /> Start Track 2
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Up Next — secondary guidance */}
-          <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
-            <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
-            <Link to="/path/foundations">
-              <Button size="sm" variant="secondary" className="w-full gap-1.5 text-xs">
-                Continue my training <ArrowRight className="h-3 w-3" />
-              </Button>
-            </Link>
-          </div>
+          {upNext && (
+            <div className="glass-panel rounded-xl p-5">
+              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
+              <Link to={`/path/${upNext.pathId}`}>
+                <Button size="sm" variant="secondary" className="w-full gap-1.5 text-xs">
+                  {upNext.label || "Continue my training"} <ArrowRight className="h-3 w-3" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </>
       ) : (
         <>
@@ -253,9 +281,15 @@ const LearningPathPage = () => {
           <ArrowLeft className="h-3 w-3" /> All Learning Paths
         </Link>
         <div className="flex items-start gap-4">
-          <CrystalIcon color={crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
+          <CrystalIcon color={path.color === "prerequisite" ? "hsl(235, 56%, 34%)" : crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
           <div>
-            <div className="text-[10px] text-primary font-mono mb-1">Track {path.order}</div>
+            <div className="text-[10px] font-mono mb-1">
+              {path.color === "prerequisite" ? (
+                <span className="px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">PREREQUISITE TRACK</span>
+              ) : (
+                <span className="text-primary">Track {path.order}</span>
+              )}
+            </div>
             <h1 className="text-2xl lg:text-3xl font-bold mb-3">{path.title}</h1>
             <p className="text-sm text-muted-foreground max-w-2xl mb-4">{path.description}</p>
             <div className="flex items-center gap-5 text-xs text-muted-foreground">
