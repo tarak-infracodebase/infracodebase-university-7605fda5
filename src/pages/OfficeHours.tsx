@@ -663,8 +663,8 @@ function HorizontalSessionCard({
     >
       {/* LEFT — Thumbnail */}
       <div style={{
-        width: '280px',
-        minWidth: '280px',
+        width: '360px',
+        minWidth: '360px',
         position: 'relative',
         overflow: 'hidden',
         flexShrink: 0,
