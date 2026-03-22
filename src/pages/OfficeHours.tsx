@@ -149,7 +149,7 @@ function InlineField({
   );
 }
 
-/* ── Photo Lightbox ── */
+/* ── Photo Lightbox (Airbnb-style fullscreen) ── */
 function Lightbox({
   images, index, onClose, onNav,
 }: {
@@ -168,39 +168,78 @@ function Lightbox({
   }, [index, total, onClose, onNav]);
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col" style={{ background: "rgba(0,0,0,0.95)" }}>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.97)', zIndex: 1000, display: 'flex', flexDirection: 'column' }}>
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-3 text-sm text-white/80">
-        <button onClick={onClose} className="flex items-center gap-1.5 hover:text-white"><X className="h-5 w-5" /> Fermer</button>
-        <span className="font-medium">{index + 1} / {total}</span>
-        <Share2 className="h-5 w-5 opacity-50" />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 10 }}>
+        <button onClick={onClose} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', fontSize: '14px', cursor: 'pointer' }}>
+          <X className="h-5 w-5" /> Fermer
+        </button>
+        <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', fontWeight: 500 }}>{index + 1} / {total}</span>
+        <Share2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.5)' }} />
       </div>
 
-      {/* Image area */}
-      <div className="flex-1 relative flex items-center justify-center px-16">
-        <button
-          onClick={() => onNav((index - 1 + total) % total)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </button>
-
+      {/* Image area — centered, no card wrapper */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 100px' }}>
         <img
           key={index}
           src={images[index].src}
           alt={images[index].caption}
-          className="max-w-[90vw] max-h-[85vh] object-contain transition-opacity duration-200"
+          style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', transition: 'opacity 0.2s' }}
         />
-
-        <button
-          onClick={() => onNav((index + 1) % total)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </button>
       </div>
 
-      <p className="text-center text-sm text-white/60 pb-4">{images[index].caption}</p>
+      {/* Left arrow */}
+      <button
+        onClick={() => onNav((index - 1 + total) % total)}
+        style={{
+          position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)',
+          width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)',
+          border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: '#fff', cursor: 'pointer', transition: 'background 0.15s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+
+      {/* Right arrow */}
+      <button
+        onClick={() => onNav((index + 1) % total)}
+        style={{
+          position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)',
+          width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)',
+          border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: '#fff', cursor: 'pointer', transition: 'background 0.15s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      {/* Caption */}
+      <p style={{ textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>{images[index].caption}</p>
+
+      {/* Thumbnail strip */}
+      <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '8px', zIndex: 10 }}>
+        {images.map((img, i) => (
+          <button
+            key={i}
+            onClick={() => onNav(i)}
+            style={{
+              width: '56px', height: '36px', borderRadius: '4px', overflow: 'hidden',
+              border: i === index ? '2px solid #22d3ee' : '2px solid transparent',
+              opacity: i === index ? 1 : 0.5, cursor: 'pointer', padding: 0, background: 'none',
+              transition: 'opacity 0.15s, border-color 0.15s',
+            }}
+            onMouseEnter={e => { if (i !== index) e.currentTarget.style.opacity = '0.8'; }}
+            onMouseLeave={e => { if (i !== index) e.currentTarget.style.opacity = '0.5'; }}
+          >
+            <img src={img.src} alt={img.caption} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -435,10 +474,33 @@ function SessionModal({
   const [captions, setCaptions] = useState(shots.map(s => s.caption));
   const [captionEditing, setCaptionEditing] = useState(false);
 
+  // Uploadable avatars from localStorage (same keys as hero)
+  const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-justin'));
+  const [tarakPhoto, setTarakPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-tarak'));
+  const justinRef = useRef<HTMLInputElement>(null);
+  const tarakRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>, key: string, setter: (v: string | null) => void) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const val = ev.target?.result as string;
+      setter(val);
+      localStorage.setItem(key, val);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const openLightbox = (i: number) => { setLightboxIndex(i); setLightboxOpen(true); };
   const imagesWithCaptions = shots.map((s, i) => ({ src: s.src, caption: captions[i] }));
 
   if (!open) return null;
+
+  const avatarData = [
+    { name: "Justin", initial: "J", photo: justinPhoto, setter: setJustinPhotoState, ref: justinRef, key: 'office-hours-photo-justin' },
+    { name: "Tarak", initial: "T", photo: tarakPhoto, setter: setTarakPhotoState, ref: tarakRef, key: 'office-hours-photo-tarak' },
+  ];
 
   return (
     <>
@@ -450,11 +512,30 @@ function SessionModal({
           </button>
 
           <div className="p-6">
-            {/* Header with instructor photos */}
+            {/* Header with uploadable instructor photos */}
             <div className="flex items-center gap-3 mb-1">
               <div className="flex -space-x-2">
-                <img src="/Justin.jpeg" alt="Justin" className="h-8 w-8 rounded-full object-cover" style={{ border: "2px solid #1c2e47" }} />
-                <img src="/Tarak.jpeg" alt="Tarak" className="h-8 w-8 rounded-full object-cover" style={{ border: "2px solid #1c2e47" }} />
+                {avatarData.map(av => (
+                  <div key={av.name} style={{ position: 'relative', cursor: 'pointer' }} onClick={() => av.ref.current?.click()}>
+                    {av.photo ? (
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                        <img src={av.photo} alt={av.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      </div>
+                    ) : (
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px solid #1c2e47' }}>
+                        {av.initial}
+                      </div>
+                    )}
+                    <div
+                      style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
+                      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                      onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                    >
+                      <span style={{ color: '#fff', fontSize: '8px', fontWeight: 700 }}>EDIT</span>
+                    </div>
+                    <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleAvatarUpload(e, av.key, av.setter)} />
+                  </div>
+                ))}
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-foreground">Build with Her — ClickOps to IaC: Azure Infrastructure Modernization</h2>
@@ -624,8 +705,8 @@ function HorizontalSessionCard({
     >
       {/* LEFT — Thumbnail */}
       <div style={{
-        width: '280px',
-        minWidth: '280px',
+        width: '360px',
+        minWidth: '360px',
         position: 'relative',
         overflow: 'hidden',
         flexShrink: 0,
