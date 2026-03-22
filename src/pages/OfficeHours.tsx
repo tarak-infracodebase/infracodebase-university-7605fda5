@@ -474,10 +474,33 @@ function SessionModal({
   const [captions, setCaptions] = useState(shots.map(s => s.caption));
   const [captionEditing, setCaptionEditing] = useState(false);
 
+  // Uploadable avatars from localStorage (same keys as hero)
+  const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-justin'));
+  const [tarakPhoto, setTarakPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-tarak'));
+  const justinRef = useRef<HTMLInputElement>(null);
+  const tarakRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>, key: string, setter: (v: string | null) => void) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const val = ev.target?.result as string;
+      setter(val);
+      localStorage.setItem(key, val);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const openLightbox = (i: number) => { setLightboxIndex(i); setLightboxOpen(true); };
   const imagesWithCaptions = shots.map((s, i) => ({ src: s.src, caption: captions[i] }));
 
   if (!open) return null;
+
+  const avatarData = [
+    { name: "Justin", initial: "J", photo: justinPhoto, setter: setJustinPhotoState, ref: justinRef, key: 'office-hours-photo-justin' },
+    { name: "Tarak", initial: "T", photo: tarakPhoto, setter: setTarakPhotoState, ref: tarakRef, key: 'office-hours-photo-tarak' },
+  ];
 
   return (
     <>
@@ -489,11 +512,30 @@ function SessionModal({
           </button>
 
           <div className="p-6">
-            {/* Header with instructor photos */}
+            {/* Header with uploadable instructor photos */}
             <div className="flex items-center gap-3 mb-1">
               <div className="flex -space-x-2">
-                <img src="/Justin.jpeg" alt="Justin" className="h-8 w-8 rounded-full object-cover" style={{ border: "2px solid #1c2e47" }} />
-                <img src="/Tarak.jpeg" alt="Tarak" className="h-8 w-8 rounded-full object-cover" style={{ border: "2px solid #1c2e47" }} />
+                {avatarData.map(av => (
+                  <div key={av.name} style={{ position: 'relative', cursor: 'pointer' }} onClick={() => av.ref.current?.click()}>
+                    {av.photo ? (
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                        <img src={av.photo} alt={av.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      </div>
+                    ) : (
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px solid #1c2e47' }}>
+                        {av.initial}
+                      </div>
+                    )}
+                    <div
+                      style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
+                      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                      onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                    >
+                      <span style={{ color: '#fff', fontSize: '8px', fontWeight: 700 }}>EDIT</span>
+                    </div>
+                    <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleAvatarUpload(e, av.key, av.setter)} />
+                  </div>
+                ))}
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-foreground">Build with Her — ClickOps to IaC: Azure Infrastructure Modernization</h2>
