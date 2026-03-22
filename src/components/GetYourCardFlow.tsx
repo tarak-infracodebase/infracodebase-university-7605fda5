@@ -345,7 +345,6 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
       document.body.removeChild(ta);
     }
     setCopied(true);
-    launchHearts();
     setTimeout(() => setCopied(false), 3500);
   };
 
