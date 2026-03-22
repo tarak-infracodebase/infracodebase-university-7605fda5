@@ -767,7 +767,7 @@ export default function OfficeHours() {
         {/* ── SECTION 3 — PAST SESSIONS ── */}
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
-          <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, view screenshots, and read the notes.</p>
+          <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
           <div className="relative">
             {/* Edit button */}
