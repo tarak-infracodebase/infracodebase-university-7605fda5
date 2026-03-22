@@ -261,7 +261,7 @@ function CalendarDropdown() {
   };
 
   return (
-    <div ref={calRef} style={{ position: 'relative', zIndex: 300 }}>
+    <div ref={calRef} style={{ position: 'relative', zIndex: 50 }}>
       <button
         onClick={() => setCalOpen(o => !o)}
         style={{
