@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GetYourCardButton from "@/components/GetYourCardFlow";
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Mono:wght@400;700&display=swap');
@@ -224,7 +225,7 @@ function Nav() {
           <span key={l} className="nav-link">{l}</span>
         ))}
       </div>
-      <button className="cta-btn" style={{ padding:"10px 22px", fontSize:10 }} onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+      <GetYourCardButton label="Get your card" />
     </nav>
   );
 }
@@ -245,7 +246,7 @@ function Hero() {
         A card that's more than access — it's identity.<br />Join a community of infrastructure builders.
       </p>
       <div className="fade-up delay-3" style={{ display:"flex", gap:14, flexWrap:"wrap", justifyContent:"center" }}>
-        <button className="cta-btn" onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+        <GetYourCardButton />
         <button className="cta-btn-outline" onClick={() => document.getElementById("benefits")?.scrollIntoView({ behavior:"smooth" })}>Explore benefits</button>
       </div>
     </section>
@@ -374,7 +375,7 @@ function HowItWorks() {
           ))}
         </div>
         <div style={{ marginTop:56 }}>
-          <button className="cta-btn" onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+          <GetYourCardButton />
         </div>
       </div>
     </section>
@@ -431,7 +432,7 @@ function FinalCTA() {
           Pick your color. Enroll today.<br />Learn forever.
         </div>
         <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
-          <button className="cta-btn" onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+          <GetYourCardButton />
           <button className="cta-btn-outline" onClick={() => document.getElementById("benefits")?.scrollIntoView({ behavior:"smooth" })}>View all benefits</button>
         </div>
       </div>
