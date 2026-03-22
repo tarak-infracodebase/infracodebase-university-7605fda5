@@ -3,7 +3,7 @@ import { AppLayout } from "@/components/AppLayout";
 import {
   Calendar, Clock, ExternalLink, Play, ChevronLeft, ChevronRight,
   Download, X, Edit2, Check, Bold, Italic, Heading3, Pilcrow,
-  List, Minus, ChevronDown, Share2,
+  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram,
 } from "lucide-react";
 
 const SPECTRUM_GRADIENT = "linear-gradient(135deg, #c2410c, #d97706, #ca8a04, #16a34a, #0891b2)";
@@ -156,6 +156,12 @@ function Lightbox({
   images: { src: string; caption: string }[]; index: number; onClose: () => void; onNav: (i: number) => void;
 }) {
   const total = images.length;
+  const [likedPhotos, setLikedPhotos] = useState<Record<number, boolean>>({});
+  const [likeCounts, setLikeCounts] = useState<Record<number, number>>({ 0: 12, 1: 8, 2: 5, 3: 7, 4: 4, 5: 3 });
+  const [shareOpen, setShareOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [instaCopied, setInstaCopied] = useState(false);
+  const shareRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -166,6 +172,57 @@ function Lightbox({
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [index, total, onClose, onNav]);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (shareRef.current && !shareRef.current.contains(e.target as Node)) setShareOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const toggleLike = () => {
+    const wasLiked = likedPhotos[index];
+    setLikedPhotos(p => ({ ...p, [index]: !wasLiked }));
+    setLikeCounts(c => ({ ...c, [index]: (c[index] || 0) + (wasLiked ? -1 : 1) }));
+  };
+
+  const handleDownload = () => {
+    const a = document.createElement('a');
+    a.href = images[index].src;
+    a.download = `infracodebase-${index + 1}.jpg`;
+    a.click();
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(`https://university.infracodebase.com/office-hours?photo=${index}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShareLinkedIn = () => {
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://university.infracodebase.com/office-hours`, '_blank');
+    setShareOpen(false);
+  };
+
+  const handleShareInsta = () => {
+    navigator.clipboard.writeText(`https://university.infracodebase.com/office-hours`);
+    setInstaCopied(true);
+    setTimeout(() => setInstaCopied(false), 3000);
+    setShareOpen(false);
+  };
+
+  const actionBtnStyle: React.CSSProperties = {
+    background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)',
+    fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px',
+    cursor: 'pointer', transition: 'all 0.15s', padding: '6px 10px', borderRadius: '6px',
+  };
+
+  const shareOptionStyle: React.CSSProperties = {
+    display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
+    color: '#cbd5e1', fontSize: '13px', borderRadius: '7px', width: '100%',
+    background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' as const,
+  };
 
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.97)', zIndex: 1000, display: 'flex', flexDirection: 'column' }}>
@@ -178,25 +235,15 @@ function Lightbox({
         <Share2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.5)' }} />
       </div>
 
-      {/* Image area — centered, no card wrapper */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 100px' }}>
-        <img
-          key={index}
-          src={images[index].src}
-          alt={images[index].caption}
-          style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', transition: 'opacity 0.2s' }}
-        />
+      {/* Image area */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 120px' }}>
+        <img key={index} src={images[index].src} alt={images[index].caption} style={{ maxWidth: '90vw', maxHeight: '75vh', objectFit: 'contain', transition: 'opacity 0.2s' }} />
       </div>
 
       {/* Left arrow */}
       <button
         onClick={() => onNav((index - 1 + total) % total)}
-        style={{
-          position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)',
-          width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)',
-          border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#fff', cursor: 'pointer', transition: 'background 0.15s',
-        }}
+        style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
         onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
       >
@@ -206,17 +253,58 @@ function Lightbox({
       {/* Right arrow */}
       <button
         onClick={() => onNav((index + 1) % total)}
-        style={{
-          position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)',
-          width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)',
-          border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#fff', cursor: 'pointer', transition: 'background 0.15s',
-        }}
+        style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
         onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
       >
         <ChevronRight className="h-5 w-5" />
       </button>
+
+      {/* Actions bar */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '4px' }}>
+        <button onClick={handleDownload} style={actionBtnStyle}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
+        >
+          <Download className="h-4 w-4" /> Download
+        </button>
+        <button onClick={toggleLike} style={{ ...actionBtnStyle, color: likedPhotos[index] ? '#fb7185' : 'rgba(255,255,255,0.8)' }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
+        >
+          <Heart className="h-4 w-4" fill={likedPhotos[index] ? '#fb7185' : 'none'} /> {likeCounts[index] || 0}
+        </button>
+        <div ref={shareRef} style={{ position: 'relative' }}>
+          <button onClick={() => setShareOpen(o => !o)} style={actionBtnStyle}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
+          >
+            <Share2 className="h-4 w-4" /> Share
+          </button>
+          {shareOpen && (
+            <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)', background: '#0b1220', border: '1px solid #25405f', borderRadius: '10px', padding: '6px', minWidth: '200px', zIndex: 1100 }}>
+              <button onClick={handleCopyLink} style={shareOptionStyle}
+                onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
+                <Link className="h-4 w-4" /> {copied ? 'Copied!' : 'Copy link'}
+              </button>
+              <button onClick={handleShareLinkedIn} style={shareOptionStyle}
+                onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
+                <Linkedin className="h-4 w-4" /> Share on LinkedIn
+              </button>
+              <button onClick={handleShareInsta} style={shareOptionStyle}
+                onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
+                <Instagram className="h-4 w-4" /> {instaCopied ? 'Link copied — paste in your story' : 'Share on Instagram'}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Caption */}
       <p style={{ textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>{images[index].caption}</p>
@@ -474,6 +562,17 @@ function SessionModal({
   const [captions, setCaptions] = useState(shots.map(s => s.caption));
   const [captionEditing, setCaptionEditing] = useState(false);
 
+  // Comments
+  const initialComments = [
+    { name: "Comfort Benton", date: "March 18, 2026", text: "This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening." },
+    { name: "Tawni", date: "March 18, 2026", text: "I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner." },
+    { name: "Reilly", date: "March 18, 2026", text: "The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works." },
+    { name: "Abby", date: "March 18, 2026", text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself." },
+  ];
+  const [comments, setComments] = useState(initialComments);
+  const [commentInput, setCommentInput] = useState("");
+  const [showAllComments, setShowAllComments] = useState(false);
+
   // Uploadable avatars from localStorage (same keys as hero)
   const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-justin'));
   const [tarakPhoto, setTarakPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-tarak'));
@@ -638,6 +737,89 @@ function SessionModal({
                       <img src={s.src} alt={captions[i]} className="w-full h-full object-cover" />
                     </button>
                   ))}
+                </div>
+
+                {/* ── Comments Section ── */}
+                <div style={{ marginTop: '40px', borderTop: '1px solid #1c2e47', paddingTop: '28px' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#f1f5f9', marginBottom: '20px' }}>What our community said</h3>
+
+                  {/* Comment input */}
+                  <div style={{ display: 'flex', gap: '12px', marginBottom: '28px', alignItems: 'flex-start' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
+                      background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '14px', fontWeight: 800, color: '#fff',
+                    }}>Y</div>
+                    <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+                      <input
+                        type="text"
+                        value={commentInput}
+                        onChange={e => setCommentInput(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' && commentInput.trim()) {
+                            setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
+                            setCommentInput('');
+                          }
+                        }}
+                        placeholder="Share your experience from this session..."
+                        style={{
+                          flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47',
+                          borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9',
+                          outline: 'none',
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (!commentInput.trim()) return;
+                          setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
+                          setCommentInput('');
+                        }}
+                        disabled={!commentInput.trim()}
+                        style={{
+                          background: SPECTRUM_GRADIENT, color: '#fff', border: 'none',
+                          borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600,
+                          cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4,
+                        }}
+                      >Post</button>
+                    </div>
+                  </div>
+
+                  {/* Comments grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                    {(showAllComments ? comments : comments.slice(0, 4)).map((c, i) => (
+                      <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                        <div style={{
+                          width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
+                          background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '14px', fontWeight: 800, color: '#fff',
+                        }}>{c.name.charAt(0)}</div>
+                        <div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px' }}>{c.name}</span>
+                            <span style={{ color: '#64748b', fontSize: '12px' }}>{c.date}</span>
+                          </div>
+                          <p style={{ color: '#cbd5e1', fontSize: '13px', lineHeight: 1.7, margin: 0 }}>{c.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {comments.length > 4 && !showAllComments && (
+                    <button
+                      onClick={() => setShowAllComments(true)}
+                      style={{
+                        marginTop: '20px', background: 'none', border: '1px solid #1c2e47',
+                        borderRadius: '8px', padding: '10px 20px', color: '#f1f5f9',
+                        fontSize: '13px', fontWeight: 600, cursor: 'pointer', width: '100%',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                    >
+                      Show all {comments.length} comments
+                    </button>
+                  )}
                 </div>
               </div>
             )}
