@@ -100,10 +100,6 @@ const css = `
 
 @keyframes gcf-spin { to { transform: rotate(360deg); } }
 
-#gcf-hearts-canvas {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 99999;
-}
 `;
 
 const variants = [
