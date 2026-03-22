@@ -7,7 +7,7 @@ const css = `
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Mono:wght@400;700&display=swap');
 
 .gcf-overlay {
-  position: fixed; inset: 0; z-index: 9999;
+  position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 9999; margin-left: 0;
   background: rgba(0,0,0,0.88);
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
