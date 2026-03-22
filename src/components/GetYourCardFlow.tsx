@@ -394,9 +394,9 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
       </div>
 
       <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.05)", borderRadius:12, padding:"13px 15px", textAlign:"center" }}>
-        <div style={{ fontFamily:"'Space Mono',monospace", fontSize:10, color:"#555", lineHeight:1.8 }}>
+        <div style={{ fontFamily:"'Space Mono',monospace", fontSize:13, color:"#fff", lineHeight:1.8 }}>
           A community built around <span style={{ color:"#22C55E" }}>we</span>, not just me.<br/>
-          <span style={{ color:"#2a2a2a" }}>Spread the word — grow this community together.</span>
+          <span style={{ color:"#fff" }}>Spread the word — grow this community together.</span>
         </div>
       </div>
     </div>
