@@ -84,7 +84,7 @@ Infracodebase University is free and community-driven. Feedback encouraged on bo
 `;
 
 const initialScreenshots = [
-  { src: "/session-photo-1.png", caption: "Session participants" },
+  { src: "/office-hours-thumbnail.png", caption: "Session participants" },
   { src: "/session-photo-2.png", caption: "Session participants" },
   { src: "/design.png", caption: "Azure architecture diagram — 92% layout quality" },
   { src: "/code.png", caption: "Generated Terraform code — security.tf" },
@@ -790,7 +790,7 @@ export default function OfficeHours() {
               <div className="flex flex-col sm:flex-row">
                 {/* Thumbnail */}
                 <div className="relative sm:w-72 shrink-0 aspect-video sm:aspect-auto overflow-hidden">
-                  <img src="/session-photo-1.png" alt="Session thumbnail" className="w-full h-full object-cover" />
+                  <img src="/office-hours-thumbnail.png" alt="Session thumbnail" className="w-full h-full object-cover" />
                   {!sessionEditing && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
