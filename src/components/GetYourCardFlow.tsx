@@ -285,8 +285,7 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
 
   const handleDownload = () => {
     setDownloading(true);
-    const nm = memberName;
-    const number = memberNumbers[cardIndex];
+    const nm = name;
 
     setTimeout(() => {
       try {
