@@ -432,7 +432,7 @@ function FinalCTA() {
           Pick your color. Enroll today.<br />Learn forever.
         </div>
         <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
-          <button className="cta-btn" onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+          <GetYourCardButton />
           <button className="cta-btn-outline" onClick={() => document.getElementById("benefits")?.scrollIntoView({ behavior:"smooth" })}>View all benefits</button>
         </div>
       </div>
