@@ -49,6 +49,7 @@ const App = () => (
               <Route path="/sign-in/*" element={<SignInPage />} />
               <Route path="/sign-up/*" element={<SignUpPage />} />
               <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
+              <Route path="/cards" element={<CommunityCards />} />
 
               {/* Protected routes */}
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
