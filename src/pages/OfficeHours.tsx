@@ -84,7 +84,8 @@ Infracodebase University is free and community-driven. Feedback encouraged on bo
 `;
 
 const initialScreenshots = [
-  { src: "/office-hours-thumbnail.png", caption: "Session participants" },
+  { src: "/office-hours-thumbnail.png", caption: "Session thumbnail" },
+  { src: "/session-photo-1.png", caption: "Session participants" },
   { src: "/session-photo-2.png", caption: "Session participants" },
   { src: "/design.png", caption: "Azure architecture diagram — 92% layout quality" },
   { src: "/code.png", caption: "Generated Terraform code — security.tf" },
