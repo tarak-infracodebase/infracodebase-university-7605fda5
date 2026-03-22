@@ -458,7 +458,7 @@ export default function GetYourCardButton({ label = "Get your card" }: { label?:
       >
         {label}
       </button>
-      {open && <GetYourCardModal onClose={() => { setOpen(false); stopHearts(); }} />}
+      {open && <GetYourCardModal onClose={() => { setOpen(false); stopConfetti(); }} />}
     </>
   );
 }
