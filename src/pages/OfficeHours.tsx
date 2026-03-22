@@ -789,8 +789,8 @@ export default function OfficeHours() {
             >
               <div className="flex flex-col sm:flex-row">
                 {/* Thumbnail */}
-                <div className="relative sm:w-72 shrink-0 aspect-video sm:aspect-auto overflow-hidden">
-                  <img src="/office-hours-thumbnail.png" alt="Session thumbnail" className="w-full h-full object-cover" />
+                <div style={{ position: 'relative', overflow: 'hidden', width: '100%', height: '160px' }} className="sm:w-72 shrink-0 sm:h-auto">
+                  <img src="/office-hours-thumbnail.png" alt="Session thumbnail" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: 'block', position: 'absolute', top: 0, left: 0 }} />
                   {!sessionEditing && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
