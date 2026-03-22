@@ -781,53 +781,16 @@ export default function OfficeHours() {
               <Edit2 className="h-4 w-4" />
             </button>
 
-            <div
-              onClick={() => !sessionEditing && setModalOpen(true)}
-              className={`group rounded-xl border border-border/50 overflow-hidden transition-all ${
-                !sessionEditing ? "cursor-pointer hover:border-border hover:shadow-lg hover:-translate-y-0.5" : ""
-              }`}
-              style={{ background: "#0d0d0d" }}
-            >
-              <div className="flex flex-col sm:flex-row">
-                {/* Thumbnail */}
-                <div style={{ position: 'relative', overflow: 'hidden', width: '100%', height: '160px' }} className="sm:w-72 shrink-0 sm:h-auto">
-                  <img src="/office-hours-thumbnail.png" alt="Session thumbnail" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: 'block', position: 'absolute', top: 0, left: 0 }} />
-                  {!sessionEditing && (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                        <Play className="h-5 w-5 text-white ml-0.5" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 p-5 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style={{ background: "rgba(167,139,250,0.15)", color: "#a78bfa" }}>
-                        Real Infrastructure
-                      </span>
-                      <span className="text-xs text-muted-foreground">49 min</span>
-                    </div>
-                    <h3 className="text-base font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">
-                      <InlineField value={sessionTitle} onChange={setSessionTitle} editing={sessionEditing} className="text-base font-semibold text-foreground" />
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      <InlineField value={sessionDesc} onChange={setSessionDesc} editing={sessionEditing} multiline className="text-sm text-muted-foreground leading-relaxed" />
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between mt-4">
-                    <span className="text-xs text-muted-foreground">
-                      <InlineField value={sessionDate} onChange={setSessionDate} editing={sessionEditing} className="text-xs text-muted-foreground" />
-                    </span>
-                    {!sessionEditing && (
-                      <span className="text-xs font-medium text-primary group-hover:underline">View session →</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HorizontalSessionCard
+              editing={sessionEditing}
+              onClick={() => setModalOpen(true)}
+              sessionTitle={sessionTitle}
+              setSessionTitle={setSessionTitle}
+              sessionDesc={sessionDesc}
+              setSessionDesc={setSessionDesc}
+              sessionDate={sessionDate}
+              setSessionDate={setSessionDate}
+            />
           </div>
         </section>
       </div>
