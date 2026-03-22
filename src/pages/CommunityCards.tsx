@@ -460,7 +460,6 @@ export default function CommunityCards() {
     <>
       <style>{css}</style>
       <div style={{ background:"#080808", minHeight:"100vh" }}>
-        <Nav />
         <Hero />
         <div className="divider" />
         <CardPicker />
@@ -469,9 +468,9 @@ export default function CommunityCards() {
         <div className="divider" />
         <HowItWorks />
         <CardMarquee />
+        <div style={{ display:'flex', justifyContent:'center', padding:'32px 0' }}><GetYourCardButton /></div>
         <div className="divider" />
         <FinalCTA />
-        <Footer />
       </div>
     </>
   );
